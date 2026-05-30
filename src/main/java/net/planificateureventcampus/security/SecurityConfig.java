@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth
+<<<<<<< HEAD
                                 // ========== ENDPOINTS PUBLICS ==========
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/auth/register/**").permitAll()
@@ -75,6 +76,16 @@ public class SecurityConfig {
                                 .requestMatchers("/h2-console/**").permitAll()
 
                                 // ========== TOUT LE RESTE EST SECURISE ==========
+=======
+                                // Uniquement login public
+                                .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers("/api/auth/register/**").permitAll()
+                                // Swagger UI public (pour tester)
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/swagger-ui.html").permitAll()
+                                .requestMatchers("/v3/api-docs/**").permitAll()
+                                // Tout le reste est sécurisé
+>>>>>>> 783f4ea9123dc7d2707dd6943e249931bfcb1fdb
                                 .anyRequest().authenticated()
                 );
 

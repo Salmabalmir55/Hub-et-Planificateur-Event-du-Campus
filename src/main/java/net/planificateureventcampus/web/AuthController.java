@@ -4,7 +4,10 @@ import jakarta.validation.Valid;
 import net.planificateureventcampus.DTOs.ApiResponseDTO;
 import net.planificateureventcampus.DTOs.LoginDTO;
 import net.planificateureventcampus.DTOs.UtilisateurDTO;
+<<<<<<< HEAD
 import net.planificateureventcampus.entities.Administrateur;
+=======
+>>>>>>> 783f4ea9123dc7d2707dd6943e249931bfcb1fdb
 import net.planificateureventcampus.entities.Etudiant;
 import net.planificateureventcampus.entities.Organisateur;
 import net.planificateureventcampus.enums.Role;
@@ -112,6 +115,7 @@ public class AuthController {
     public ResponseEntity<?> verify() {
         return ResponseEntity.ok(ApiResponseDTO.success("Backend fonctionne"));
     }
+<<<<<<< HEAD
     @PostMapping("/register/administrateur")
     public ResponseEntity<?> registerAdministrateur(@Valid @RequestBody UtilisateurDTO dto) {
         if (utilisateurRepository.existsByEmail(dto.getEmail())) {
@@ -130,4 +134,6 @@ public class AuthController {
         utilisateurRepository.save(administrateur);
         return ResponseEntity.ok(ApiResponseDTO.success("Administrateur créé avec succès"));
     }
+=======
+>>>>>>> 783f4ea9123dc7d2707dd6943e249931bfcb1fdb
 }
