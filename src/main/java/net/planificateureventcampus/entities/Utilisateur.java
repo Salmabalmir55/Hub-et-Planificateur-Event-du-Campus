@@ -1,9 +1,9 @@
 package net.planificateureventcampus.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import net.planificateureventcampus.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,22 +42,29 @@ public class Utilisateur implements UserDetails {
     private Role role;
 
     private String photoProfil;
-
     private String telephone;
-
-    @Column(nullable = false)
     private boolean actif = true;
-
-    @Column(nullable = false)
     private LocalDateTime dateInscription;
-
     private LocalDateTime derniereConnexion;
+
+    // ===== CONSTRUCTEUR AJOUTÉ =====
+    public Utilisateur(String nom, String prenom, String email, String motDePasse, Role role) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.motDePasse = motDePasse;
+        this.role = role;
+        this.actif = true;
+        this.dateInscription = LocalDateTime.now();
+    }
+    // ===============================
 
     @PrePersist
     protected void onCreate() {
-        dateInscription = LocalDateTime.now();
+        if (dateInscription == null) {
+            dateInscription = LocalDateTime.now();
+        }
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

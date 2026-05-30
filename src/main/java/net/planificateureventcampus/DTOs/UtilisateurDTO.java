@@ -18,18 +18,18 @@ public class UtilisateurDTO {
     private Long id;
 
     @NotBlank(message = "Le nom est obligatoire")
-    @Size(min = 2, max = 50, message = "Le nom doit contenir entre 2 et 50 caractères")
+    @Size(min = 2, max = 50)
     private String nom;
 
     @NotBlank(message = "Le prénom est obligatoire")
-    @Size(min = 2, max = 50, message = "Le prénom doit contenir entre 2 et 50 caractères")
+    @Size(min = 2, max = 50)
     private String prenom;
 
     @NotBlank(message = "L'email est obligatoire")
     @Email(message = "Format d'email invalide")
     private String email;
 
-    @NotBlank(message = "Le mot de passe est obligatoire")  // ← Ajoute cette ligne
+    @NotBlank(message = "Le mot de passe est obligatoire")
     @Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères")
     private String motDePasse;
 
@@ -40,20 +40,15 @@ public class UtilisateurDTO {
     private LocalDateTime dateInscription;
     private LocalDateTime derniereConnexion;
 
-    // Étudiant
+    // Pour Étudiant
     private String matricule;
     private String filiere;
     private Integer niveau;
 
-    // Organisateur
+    // Pour Organisateur
     private String departement;
     private Boolean estVerifie;
 
-    public UtilisateurDTO(String nom, String prenom, String email, String motDePasse, Role role) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.motDePasse = motDePasse;
-        this.role = role;
-    }
+    // ===== POUR ADMINISTRATEUR =====
+    private String niveauAcces;  // ← Ajouter cette ligne
 }
