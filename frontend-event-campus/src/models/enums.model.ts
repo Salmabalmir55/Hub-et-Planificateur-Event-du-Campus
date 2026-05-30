@@ -1,0 +1,13 @@
+export enum Role {
+  ROLE_ETUDIANT = 'ROLE_ETUDIANT',
+  ROLE_ORGANISATEUR = 'ROLE_ORGANISATEUR',
+  ROLE_ADMIN = 'ROLE_ADMIN'
+}
+
+export enum StatutEvenement {
+  EN_ATTENTE = 'EN_ATTENTE',
+  VALIDE = 'VALIDE',
+  REJETE = 'REJETE',
+  ANNULE = 'ANNULE',
+  TERMINE = 'TERMINE'
+}
