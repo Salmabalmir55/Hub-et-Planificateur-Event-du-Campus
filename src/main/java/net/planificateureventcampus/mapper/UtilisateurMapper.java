@@ -4,20 +4,13 @@ import net.planificateureventcampus.DTOs.UtilisateurDTO;
 import net.planificateureventcampus.entities.Utilisateur;
 import net.planificateureventcampus.entities.Etudiant;
 import net.planificateureventcampus.entities.Organisateur;
-<<<<<<< HEAD
 import net.planificateureventcampus.entities.Administrateur;
 import net.planificateureventcampus.enums.Role;
-=======
->>>>>>> 783f4ea9123dc7d2707dd6943e249931bfcb1fdb
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-<<<<<<< HEAD
 @Mapper(componentModel = "spring", imports = {Role.class})
-=======
 @Mapper(componentModel = "spring")
->>>>>>> 783f4ea9123dc7d2707dd6943e249931bfcb1fdb
 public abstract class UtilisateurMapper {
 
     @Autowired
@@ -33,7 +26,6 @@ public abstract class UtilisateurMapper {
 
     @Mapping(target = "motDePasse", ignore = true)
     public abstract UtilisateurDTO toDto(Utilisateur utilisateur);
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "motDePasse", ignore = true)
     @Mapping(target = "role", ignore = true)
@@ -52,11 +44,8 @@ public abstract class UtilisateurMapper {
         } else if (utilisateur instanceof Organisateur organisateur) {
             dto.setDepartement(organisateur.getDepartement());
             dto.setEstVerifie(organisateur.isEstVerifie());
-<<<<<<< HEAD
         } else if (utilisateur instanceof Administrateur administrateur) {  // ← AJOUTER
             dto.setNiveauAcces(administrateur.getNiveauAcces());
-=======
->>>>>>> 783f4ea9123dc7d2707dd6943e249931bfcb1fdb
         }
     }
 }

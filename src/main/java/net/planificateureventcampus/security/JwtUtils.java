@@ -21,13 +21,8 @@ public class JwtUtils {
 
     @Value("${jwt.expiration}")
     private int jwtExpirationMs;
-
-<<<<<<< HEAD
-=======
     @Value("${jwt.refresh-expiration}")
     private int jwtRefreshExpirationMs;  // ← LIGNE AJOUTÉE
-
->>>>>>> 783f4ea9123dc7d2707dd6943e249931bfcb1fdb
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
@@ -66,9 +61,4 @@ public class JwtUtils {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
         return false;
-    }
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> 783f4ea9123dc7d2707dd6943e249931bfcb1fdb
+    }}
