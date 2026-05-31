@@ -21,14 +21,14 @@
     font-size: 0.95rem;
 }
 
-/* Conteneur de tableau responsive */
+
 .table-responsive {
     width: 100%;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     border: 1px solid #eef2f6;
-    overflow-x: auto; /* Permet le défilement horizontal sur mobile */
+    overflow-x: auto; 
 }
 
 /* Style de la table globale */
@@ -57,7 +57,7 @@
     vertical-align: middle;
 }
 
-/* Effet au survol d'une ligne */
+
 .enrollments-table tbody tr:hover {
     background-color: #f8fafc;
 }
@@ -72,7 +72,7 @@
     margin-right: 6px;
 }
 
-/* Style des badges de Statut */
+
 .status-badge {
     display: inline-block;
     padding: 6px 12px;
@@ -127,7 +127,7 @@
     cursor: not-allowed;
 }
 
-/* État vide */
+
 .no-enrollments {
     text-align: center;
     padding: 60px 20px;
