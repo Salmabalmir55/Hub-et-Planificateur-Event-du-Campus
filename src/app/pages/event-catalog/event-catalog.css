@@ -92,7 +92,6 @@
     gap: 30px;
 }
 
-/* Event Card (Clean & Modern) */
 .event-card {
     background-color: #ffffff;
     border-radius: 16px;
@@ -165,7 +164,7 @@
 }
 
 .event-price.free {
-    color: #10b981; /* لون أخضر لكلمة مجاني */
+    color: #10b981; 
 }
 
 .card-footer {
@@ -190,7 +189,7 @@
     color: #ffffff;
 }
 
-/* No Results */
+
 .no-results {
     grid-column: 1 / -1;
     text-align: center;
