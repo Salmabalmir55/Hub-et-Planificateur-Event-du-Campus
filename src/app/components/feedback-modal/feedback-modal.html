@@ -1,0 +1,41 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
+    
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+            <h2>Votre Avis Compte</h2>
+            <button class="close-btn" (click)="closeModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <p class="feedback-subtitle">Comment évaluez-vous <strong>{{ eventTitle }}</strong> ?</p>
+
+            <div class="stars-container">
+                <i *ngFor="let star of stars" 
+                   class="fa-star"
+                   [ngClass]="star <= (hoveredRating || rating) ? 'fa-solid active-star' : 'fa-regular inactive-star'"
+                   (mouseenter)="hoveredRating = star"
+                   (mouseleave)="hoveredRating = 0"
+                   (click)="setRating(star)">
+                </i>
+            </div>
+
+            <div class="form-group">
+                <label>Laissez un commentaire (Optionnel)</label>
+                <textarea 
+                    rows="4" 
+                    placeholder="Qu'avez-vous pensé de cet événement ? Partagez votre expérience..." 
+                    [(ngModel)]="comment">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-cancel" (click)="closeModal()">Annuler</button>
+            <button class="btn-submit" (click)="soumettreFeedback()">Soumettre</button>
+        </div>
+
+    </div>
+</div>

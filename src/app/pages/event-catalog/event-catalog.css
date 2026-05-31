@@ -1,0 +1,210 @@
+.catalog-container {
+    padding: 40px 5%;
+    min-height: calc(100vh - 70px);
+    background-color: #f4f7fb; /* نفس الخلفية المريحة للعين */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header & Controls */
+.catalog-header {
+    margin-bottom: 40px;
+}
+
+.page-title {
+    color: #0f172a;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+}
+
+.controls-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    position: relative;
+    width: 350px;
+    max-width: 100%;
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid #e2e8f0;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+}
+
+.search-box input:focus {
+    border-color: rgb(0, 33, 243);
+    box-shadow: 0 0 0 3px rgba(0, 33, 243, 0.1);
+}
+
+.category-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    color: #475569;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.filter-btn.active {
+    background-color: rgb(0, 33, 243);
+    color: #ffffff;
+    border-color: rgb(0, 33, 243);
+    box-shadow: 0 4px 10px rgba(0, 33, 243, 0.2);
+}
+
+/* Events Grid */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Event Card (Clean & Modern) */
+.event-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #eef2f6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-image {
+    position: relative;
+    height: 160px;
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.placeholder-img i {
+    font-size: 3rem;
+    color: #818cf8;
+    opacity: 0.5;
+}
+
+.category-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: rgb(0, 33, 243);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.card-content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.event-title {
+    font-size: 1.15rem;
+    color: #1e293b;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.event-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.event-price {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.event-price.free {
+    color: #10b981; /* لون أخضر لكلمة مجاني */
+}
+
+.card-footer {
+    padding: 0 20px 20px;
+}
+
+.details-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #f1f5f9;
+    color: rgb(0, 33, 243);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.details-btn:hover {
+    background-color: rgb(0, 33, 243);
+    color: #ffffff;
+}
+
+/* No Results */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: #94a3b8;
+}
+
+.no-results i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #cbd5e1;
+}
+
+.no-results p {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
