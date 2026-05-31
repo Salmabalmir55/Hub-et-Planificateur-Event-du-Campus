@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 70px);
-    background-color: #f4f7fb; /* خلفية رمادية/زرقاء فاتحة جداً ومريحة للعين */
+    background-color: #f4f7fb;  
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 30px 20px;
 }
@@ -15,14 +15,12 @@
     background-color: #ffffff;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); /* ظل ناعم كيعطي عمق احترافي */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); 
 }
-
-/* Left Side: Avatar Card */
 .profile-left {
     flex: 1;
-    background-color: #ffffff; /* أبيض نقي */
-    border-right: 1px solid #eef2f6; /* خط فاصل خفيف */
+    background-color: #ffffff;  
+    border-right: 1px solid #eef2f6; 
     padding: 40px 20px;
     display: flex;
     flex-direction: column;
@@ -41,7 +39,7 @@
     height: 130px;
     border-radius: 50%;
     background-color: #f8fafc;
-    border: 3px solid rgb(0, 33, 243); /* لمسة ENSET خفيفة وأنيقة */
+    border: 3px solid rgb(0, 33, 243); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,12 +80,12 @@
 .user-name {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #1e293b; /* رمادي غامق مريح فبلاصت الكحل */
+    color: #1e293b; 
     margin: 10px 0 5px 0;
 }
 
 .user-role {
-    background-color: #e0e7ff; /* خلفية زرقاء باردة */
+    background-color: #e0e7ff; 
     color: rgb(0, 33, 243);
     padding: 6px 16px;
     border-radius: 20px;
@@ -97,7 +95,6 @@
     letter-spacing: 0.5px;
 }
 
-/* Right Side: Edit Form */
 .profile-right {
     flex: 1.6;
     padding: 40px 50px;
@@ -115,7 +112,6 @@
     position: relative;
 }
 
-/* لمسة فنية تحت العنوان */
 .profile-title::after {
     content: '';
     position: absolute;
@@ -158,7 +154,6 @@
     font-size: 1rem;
 }
 
-/* الخانات دبا بحواف دائرية ومريحة */
 .input-field, .select-field {
     width: 100%;
     border: 1px solid #e2e8f0;
@@ -175,7 +170,7 @@
     cursor: pointer;
 }
 
-/* ملي كتكليكي على الخانة كيبان الأزرق */
+
 .input-field:focus, .select-field:focus {
     outline: none;
     border-color: rgb(0, 33, 243);
