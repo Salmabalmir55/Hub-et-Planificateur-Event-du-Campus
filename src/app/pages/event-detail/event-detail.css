@@ -1,7 +1,7 @@
 .detail-container {
     padding: 40px 5%;
     min-height: calc(100vh - 70px);
-    background-color: #f4f7fb; /* نفس الخلفية المريحة */
+    background-color: #f4f7fb; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
@@ -38,7 +38,7 @@
     flex-direction: column;
 }
 
-/* شاشات البيسي: نقسمو الكارطة على جوج (يمين/يسار) */
+
 @media (min-width: 768px) {
     .detail-card {
         flex-direction: row;
@@ -71,7 +71,7 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: #10b981; /* أخضر ناصع */
+    background-color: #10b981; 
     color: #ffffff;
     padding: 8px 16px;
     border-radius: 20px;
@@ -154,11 +154,11 @@
 }
 
 .seats-info i {
-    color: #f59e0b; /* أيقونة برتقالية */
+    color: #f59e0b; 
     font-size: 1.2rem;
 }
 
-/* لون أحمر ملي كيكونو المقاعد قلال */
+
 .seats-info.low-seats i {
     color: #ef4444; 
 }
