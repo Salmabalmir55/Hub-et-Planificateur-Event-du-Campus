@@ -1,0 +1,209 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 70px);
+    background-color: #f4f7fb; /* خلفية رمادية/زرقاء فاتحة جداً ومريحة للعين */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 30px 20px;
+}
+
+.profile-box {
+    display: flex;
+    width: 900px;
+    min-height: 550px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); /* ظل ناعم كيعطي عمق احترافي */
+}
+
+/* Left Side: Avatar Card */
+.profile-left {
+    flex: 1;
+    background-color: #ffffff; /* أبيض نقي */
+    border-right: 1px solid #eef2f6; /* خط فاصل خفيف */
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.profile-img-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-color: #f8fafc;
+    border: 3px solid rgb(0, 33, 243); /* لمسة ENSET خفيفة وأنيقة */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 33, 243, 0.15);
+}
+
+.profile-img-circle i {
+    font-size: 3.5rem;
+    color: rgb(0, 33, 243);
+}
+
+.upload-label {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgb(0, 33, 243);
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.upload-label:hover {
+    transform: scale(1.1);
+}
+
+.upload-label input[type="file"] {
+    display: none;
+}
+
+.user-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b; /* رمادي غامق مريح فبلاصت الكحل */
+    margin: 10px 0 5px 0;
+}
+
+.user-role {
+    background-color: #e0e7ff; /* خلفية زرقاء باردة */
+    color: rgb(0, 33, 243);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Right Side: Edit Form */
+.profile-right {
+    flex: 1.6;
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+}
+
+.profile-title {
+    color: #0f172a;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* لمسة فنية تحت العنوان */
+.profile-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 40px;
+    height: 3px;
+    background-color: rgb(0, 33, 243);
+    border-radius: 2px;
+}
+
+.profile-form {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-group i {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    color: #94a3b8;
+    font-size: 1rem;
+}
+
+/* الخانات دبا بحواف دائرية ومريحة */
+.input-field, .select-field {
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px; 
+    padding: 10px 10px 10px 38px;
+    font-size: 0.95rem;
+    background: #f8fafc;
+    color: #334155;
+    transition: all 0.3s;
+}
+
+.select-field {
+    appearance: none;
+    cursor: pointer;
+}
+
+/* ملي كتكليكي على الخانة كيبان الأزرق */
+.input-field:focus, .select-field:focus {
+    outline: none;
+    border-color: rgb(0, 33, 243);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 33, 243, 0.1);
+}
+
+.input-field:focus + i, .select-field:focus + i {
+    color: rgb(0, 33, 243);
+}
+
+.save-btn {
+    background-color: rgb(0, 33, 243);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 33, 243, 0.2);
+    align-self: flex-end;
+    transition: all 0.2s;
+    margin-top: 10px;
+}
+
+.save-btn:hover {
+    background-color: rgb(0, 26, 190);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 33, 243, 0.3);
+}

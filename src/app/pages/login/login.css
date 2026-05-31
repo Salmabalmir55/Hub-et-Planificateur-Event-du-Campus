@@ -1,0 +1,221 @@
+.login-container, .register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px); 
+    background-color: rgb(0, 33, 243); /* ENSET Electric Blue */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+}
+
+.login-box, .register-box {
+    display: flex;
+    width: 850px;
+    height: 520px;
+    background-color: #ffffff; 
+    border-radius: 20px;
+    overflow: hidden; 
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Left Side (Blue Section) */
+.left-side {
+    flex: 1.1;
+    background-color: rgb(0, 33, 243); /* ENSET Electric Blue */
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end; 
+    position: relative;
+}
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    align-items: flex-end;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    padding: 10px 20px;
+    width: 80%;
+    text-align: right;
+}
+
+.tab-button.active {
+    color: rgb(0, 33, 243);
+    background-color: #ffffff;
+    padding: 12px 30px;
+    border-radius: 25px 0 0 25px;
+    width: 90%;
+    box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Right Side (Form) */
+.right-side {
+    flex: 1.4;
+    padding: 35px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+}
+
+.avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.user-icon-circle {
+    width: 75px;
+    height: 75px;
+    background: #f0f4f9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgb(0, 33, 243);
+}
+
+.user-icon-circle i {
+    font-size: 2.2rem;
+    color: rgb(0, 33, 243);
+}
+
+.main-title {
+    color: rgb(0, 33, 243);
+    text-transform: uppercase;
+    margin-top: 15px;
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+.form-container {
+    width: 100%;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group i {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+    font-size: 1.1rem;
+}
+
+.input-field, .select-field {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #cbd5e1;
+    padding: 12px 12px 12px 35px;
+    font-size: 1rem;
+    background: transparent;
+    color: #334155;
+}
+
+.select-field {
+    appearance: none;
+    cursor: pointer;
+}
+
+.input-field:focus, .select-field:focus {
+    outline: none;
+    border-bottom-color: rgb(0, 33, 243);
+}
+
+.input-field:focus + i, .select-field:focus + i {
+    color: rgb(0, 33, 243);
+}
+
+.links {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10px;
+}
+
+.link-text, .redirect-link {
+    color: #888888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.link-text:hover, .redirect-link:hover {
+    color: rgb(0, 33, 243);
+}
+
+.submit-btn {
+    background-color: rgb(0, 33, 243);
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 25px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 33, 243, 0.3);
+    align-self: flex-end;
+    transition: all 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: rgb(0, 26, 190);
+    transform: translateY(-1px);
+}
+
+.social-login, .login-redirect {
+    width: 100%;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-text {
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8fafc;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.social-icon.google { color: #db4437; }
+.social-icon.facebook { color: #4267B2; }

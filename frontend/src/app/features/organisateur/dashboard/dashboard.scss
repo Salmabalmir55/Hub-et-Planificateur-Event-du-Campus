@@ -1,0 +1,171 @@
+.saas-app-container {
+  display: flex;
+  background: white;
+  border-radius: 24px; /* Les grands bords arrondis de l'app */
+  min-height: 85vh;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Pour couper ce qui dépasse des bords arrondis */
+}
+
+/* --- BARRE LATÉRALE --- */
+.sidebar {
+  width: 260px;
+  background: var(--sidebar-blue);
+  color: white;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+
+  .brand {
+    padding: 0 2rem;
+    margin-bottom: 3rem;
+    h2 { margin: 0; font-size: 1.5rem; letter-spacing: 0.5px; }
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .menu-item {
+      padding: 1rem 2rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0 1rem;
+      border-radius: 12px; /* Effet pilule */
+      transition: all 0.2s ease;
+
+      &:hover { color: white; background: rgba(255, 255, 255, 0.1); }
+
+      &.active {
+        background: white;
+        color: var(--sidebar-blue);
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+    }
+  }
+}
+
+/* --- CONTENU PRINCIPAL --- */
+.main-content {
+  flex: 1;
+  padding: 2.5rem 3rem;
+  background: white;
+  overflow-y: auto;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  .page-title {
+    h1 { margin: 0 0 0.2rem 0; font-size: 1.8rem; }
+    .subtitle { margin: 0; color: var(--text-gray); font-size: 0.9rem; }
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .btn-create {
+      background: var(--sidebar-blue); color: white;
+      border: none; padding: 0.6rem 1.2rem;
+      border-radius: 8px; font-weight: 500; cursor: pointer;
+    }
+    .avatar {
+      width: 40px; height: 40px; background: var(--app-bg);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem;
+    }
+  }
+}
+
+/* --- ONGLETS --- */
+.tabs {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 2rem;
+
+  .tab {
+    background: none; border: none;
+    padding: 0.5rem 0 1rem 0;
+    font-size: 0.95rem; font-weight: 500;
+    color: var(--text-gray); cursor: pointer;
+    position: relative;
+
+    &.active {
+      color: var(--text-dark); font-weight: 600;
+      &::after {
+        content: ''; position: absolute; bottom: -1px; left: 0;
+        width: 100%; height: 3px; background: var(--sidebar-blue);
+        border-radius: 3px 3px 0 0;
+      }
+    }
+  }
+}
+
+/* --- LISTE DE DONNÉES --- */
+.data-list {
+  display: flex; flex-direction: column; gap: 0.5rem;
+
+  .list-header {
+    display: flex; align-items: center;
+    padding: 1rem 1.5rem;
+    font-size: 0.85rem; font-weight: 600; color: var(--text-gray);
+    margin-bottom: 0.5rem;
+  }
+
+  .list-row {
+    display: flex; align-items: center;
+    padding: 1rem 1.5rem;
+    background: #fcfcfc;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+
+    &:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+
+    &.row-active {
+      background: var(--sidebar-blue); color: white; border-color: var(--sidebar-blue);
+      box-shadow: 0 10px 20px rgba(11, 87, 208, 0.2);
+
+      .text-gray { color: rgba(255,255,255,0.8); }
+      .dot-success { background: #4ade80; }
+    }
+  }
+
+  /* Gestion des colonnes (Largeurs) */
+  .col-id { width: 8%; }
+  .col-name { width: 25%; }
+  .col-place { width: 25%; }
+  .col-date { width: 15%; }
+  .col-cap { width: 10%; }
+  .col-status { width: 12%; display: flex; align-items: center; gap: 8px; }
+  .col-action { width: 5%; text-align: right; }
+
+  /* Utilitaires de texte */
+  .text-gray { color: var(--text-gray); }
+  .font-medium { font-weight: 600; }
+
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    &.dot-pending { background: #f59e0b; }
+    &.dot-success { background: #10b981; }
+  }
+
+  .icon-btn {
+    background: none; border: none; cursor: pointer; font-size: 1.2rem;
+    opacity: 0.7; &:hover { opacity: 1; }
+  }
+}

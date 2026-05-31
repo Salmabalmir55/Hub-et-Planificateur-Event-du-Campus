@@ -1,0 +1,190 @@
+.detail-container {
+    padding: 40px 5%;
+    min-height: calc(100vh - 70px);
+    background-color: #f4f7fb; /* نفس الخلفية المريحة */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.back-link {
+    align-self: flex-start;
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.back-link:hover {
+    color: rgb(0, 33, 243);
+}
+
+.detail-card {
+    width: 100%;
+    max-width: 1000px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* شاشات البيسي: نقسمو الكارطة على جوج (يمين/يسار) */
+@media (min-width: 768px) {
+    .detail-card {
+        flex-direction: row;
+    }
+    .detail-image-wrapper {
+        flex: 1;
+        min-height: 400px;
+    }
+    .detail-content {
+        flex: 1.2;
+    }
+}
+
+.detail-image-wrapper {
+    position: relative;
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; 
+}
+
+.placeholder-img i {
+    font-size: 5rem;
+    color: #818cf8;
+    opacity: 0.5;
+}
+
+.price-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #10b981; /* أخضر ناصع */
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.detail-content {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.event-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #475569;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.meta-item i {
+    color: rgb(0, 33, 243);
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.event-description h3 {
+    font-size: 1.2rem;
+    color: #1e293b;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.event-description p {
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.detail-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.seats-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #0f172a;
+    font-size: 1rem;
+}
+
+.seats-info i {
+    color: #f59e0b; /* أيقونة برتقالية */
+    font-size: 1.2rem;
+}
+
+/* لون أحمر ملي كيكونو المقاعد قلال */
+.seats-info.low-seats i {
+    color: #ef4444; 
+}
+
+.enroll-btn {
+    background-color: rgb(0, 33, 243);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 33, 243, 0.2);
+    transition: all 0.2s ease;
+}
+
+.enroll-btn:hover:not(:disabled) {
+    background-color: rgb(0, 26, 190);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 33, 243, 0.3);
+}
+
+.enroll-btn:disabled {
+    background-color: #cbd5e1;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}

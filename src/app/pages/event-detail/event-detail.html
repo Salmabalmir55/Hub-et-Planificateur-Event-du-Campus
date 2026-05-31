@@ -1,0 +1,52 @@
+<div class="detail-container">
+    
+    <a routerLink="/catalog" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Retour au Catalogue
+    </a>
+
+    <div class="detail-card">
+        
+        <div class="detail-image-wrapper">
+            <div class="placeholder-img">
+                <i class="fa-regular fa-image"></i>
+            </div>
+            <span class="price-badge">{{ event.price }}</span>
+        </div>
+
+        <div class="detail-content">
+            <h1 class="event-title">{{ event.title }}</h1>
+            
+            <div class="event-meta">
+                <div class="meta-item">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>{{ event.date }} • {{ event.time }}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>{{ event.location }}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>Organisé par : {{ event.organizer }}</span>
+                </div>
+            </div>
+
+            <div class="event-description">
+                <h3>À propos de cet événement</h3>
+                <p>{{ event.description }}</p>
+            </div>
+
+            <div class="detail-footer">
+                <div class="seats-info" [class.low-seats]="event.placesRestantes < 10">
+                    <i class="fa-solid fa-ticket"></i>
+                    <span><strong>{{ event.placesRestantes }}</strong> places restantes</span>
+                </div>
+                
+                <button class="enroll-btn" (click)="sinscrireEvenement()" [disabled]="event.placesRestantes === 0">
+                    S'inscrire
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
