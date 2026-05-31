@@ -1,0 +1,52 @@
+/* Grille de KPI au dessus */
+.stats-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-mini-card {
+  background: #fafafa;
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 1.5rem;
+
+  .card-label { font-size: 0.85rem; color: var(--text-gray); font-weight: 500; }
+
+  .card-value-wrapper {
+    display: flex; align-items: baseline; justify-content: space-between; margin-top: 0.5rem;
+    h2 { font-size: 1.8rem; margin: 0; }
+    .text-danger { color: #ef4444; }
+  }
+
+  .growth {
+    font-size: 0.8rem; font-weight: 600; padding: 2px 6px; border-radius: 4px;
+    &.positive { background: #e6f9f0; color: #10b981; }
+    &.negative { background: #fee2e2; color: #ef4444; }
+  }
+}
+
+.report-section-title {
+  font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-dark);
+}
+
+/* Dimensions des colonnes de logs */
+.col-type { width: 15%; }
+.col-desc { width: 55%; }
+.col-date { width: 15%; }
+.col-severity { width: 15%; }
+
+.report-tag {
+  padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+  &.tag-warn { background: #fff3cd; color: #856404; }
+  &.tag-info { background: #e8f0fe; color: var(--sidebar-blue); }
+}
+
+.level {
+  font-size: 0.85rem; font-weight: 500;
+  &.level-high { color: #d93025; }
+  &.level-low { color: var(--text-gray); }
+}
+
+.warning-border { border-left: 4px solid #f4c20d !important; }

@@ -1,38 +1,13 @@
-/* styles.scss - Thème Espace de travail SaaS */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-:root {
-  --app-bg: #eef2f6; /* Le fond gris-bleu très clair derrière l'app */
-  --sidebar-blue: #0b57d0; /* Le bleu vif de la barre latérale */
-  --text-dark: #202124;
-  --text-gray: #5f6368;
-  --border-light: #e8eaed;
-}
-
-body {
-  margin: 0;
-  padding: 2rem;
-  min-height: 100vh;
-  background-color: var(--app-bg);
-  font-family: 'Inter', sans-serif;
-  color: var(--text-dark);
-  box-sizing: border-box;
-}
-
-* { box-sizing: inherit; }
-
-/* --- STYLES COMMUNS À TOUTE L'APPLICATION (Structure) --- */
-
 .saas-app-container {
   display: flex;
   background: white;
-  border-radius: 24px;
+  border-radius: 24px; /* Les grands bords arrondis de l'app */
   min-height: 85vh;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
+  overflow: hidden; /* Pour couper ce qui dépasse des bords arrondis */
 }
 
-/* --- BARRE LATÉRALE GLOBALE --- */
+/* --- BARRE LATÉRALE --- */
 .sidebar {
   width: 260px;
   background: var(--sidebar-blue);
@@ -62,7 +37,7 @@ body {
       align-items: center;
       gap: 1rem;
       margin: 0 1rem;
-      border-radius: 12px;
+      border-radius: 12px; /* Effet pilule */
       transition: all 0.2s ease;
 
       &:hover { color: white; background: rgba(255, 255, 255, 0.1); }
@@ -95,9 +70,26 @@ body {
     h1 { margin: 0 0 0.2rem 0; font-size: 1.8rem; }
     .subtitle { margin: 0; color: var(--text-gray); font-size: 0.9rem; }
   }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .btn-create {
+      background: var(--sidebar-blue); color: white;
+      border: none; padding: 0.6rem 1.2rem;
+      border-radius: 8px; font-weight: 500; cursor: pointer;
+    }
+    .avatar {
+      width: 40px; height: 40px; background: var(--app-bg);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem;
+    }
+  }
 }
 
-/* --- ONGLETS (TABS) --- */
+/* --- ONGLETS --- */
 .tabs {
   display: flex;
   gap: 2rem;
@@ -122,38 +114,54 @@ body {
   }
 }
 
-/* --- LISTES DE DONNÉES GLOBALES --- */
+/* --- LISTE DE DONNÉES --- */
 .data-list {
   display: flex; flex-direction: column; gap: 0.5rem;
 
   .list-header {
-    display: flex; align-items: center; padding: 1rem 1.5rem;
+    display: flex; align-items: center;
+    padding: 1rem 1.5rem;
     font-size: 0.85rem; font-weight: 600; color: var(--text-gray);
     margin-bottom: 0.5rem;
   }
 
   .list-row {
-    display: flex; align-items: center; padding: 1rem 1.5rem;
-    background: #fcfcfc; border: 1px solid var(--border-light);
-    border-radius: 12px; font-size: 0.9rem; transition: transform 0.2s;
+    display: flex; align-items: center;
+    padding: 1rem 1.5rem;
+    background: #fcfcfc;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    transition: transform 0.2s;
 
     &:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
 
     &.row-active {
       background: var(--sidebar-blue); color: white; border-color: var(--sidebar-blue);
       box-shadow: 0 10px 20px rgba(11, 87, 208, 0.2);
+
+      .text-gray { color: rgba(255,255,255,0.8); }
+      .dot-success { background: #4ade80; }
     }
   }
 
-  /* Utilitaires de texte et de statut */
+  /* Gestion des colonnes (Largeurs) */
+  .col-id { width: 8%; }
+  .col-name { width: 25%; }
+  .col-place { width: 25%; }
+  .col-date { width: 15%; }
+  .col-cap { width: 10%; }
+  .col-status { width: 12%; display: flex; align-items: center; gap: 8px; }
+  .col-action { width: 5%; text-align: right; }
+
+  /* Utilitaires de texte */
   .text-gray { color: var(--text-gray); }
   .font-medium { font-weight: 600; }
 
   .dot {
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+    width: 8px; height: 8px; border-radius: 50%;
     &.dot-pending { background: #f59e0b; }
     &.dot-success { background: #10b981; }
-    &.dot-danger { background: #ef4444; }
   }
 
   .icon-btn {
