@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-reports',
-  standalone: true, // <-- L'ajout indispensable pour que le routage fonctionne
-  imports: [],
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './reports.html',
   styleUrl: './reports.scss',
 })

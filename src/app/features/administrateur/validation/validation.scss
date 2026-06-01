@@ -1,23 +1,29 @@
 /* Styles spécifiques à l'Administrateur */
 .admin-sidebar {
-  /* On peut garder le même bleu, ou utiliser une teinte légèrement différente pour différencier l'admin (ex: un gris-bleu très foncé #1e293b) */
   background: var(--sidebar-blue);
 }
 
-/* Redéfinition des largeurs de colonnes pour cette vue */
 .data-list {
-  .col-id { width: 10%; }
-  .col-name { width: 35%; }
-  .col-orga { width: 25%; color: var(--text-gray); }
-  .col-date { width: 15%; color: var(--text-gray); }
-  .col-action { width: 15%; }
+  /* Organisation structurelle en grille */
+  .list-header, .list-row {
+    display: grid;
+    /* Réf (80px) | Titre (2.5fr) | Organisateur (1.5fr) | Date (1fr) | Actions (180px) */
+    grid-template-columns: 80px 2.5fr 1.5fr 1fr 180px;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+  }
 
   .text-center { text-align: center; }
 
   .pending-row {
     background: white;
     border-left: 4px solid #f59e0b; /* Ligne orange pour indiquer l'attente */
-    padding: 0.8rem 1.5rem;
+    border-top: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    border-radius: 12px;
+    transition: all 0.2s;
 
     &:hover {
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
