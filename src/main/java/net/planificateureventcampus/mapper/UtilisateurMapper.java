@@ -10,7 +10,6 @@ import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 @Mapper(componentModel = "spring", imports = {Role.class})
-@Mapper(componentModel = "spring")
 public abstract class UtilisateurMapper {
 
     @Autowired
