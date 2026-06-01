@@ -1,1 +1,56 @@
-<p>attendees works!</p>
+<div class="saas-app-container">
+
+  <aside class="sidebar" style="width: 260px; background: #0b57d0; color: white; padding: 2rem 0; display: flex; flex-direction: column;">
+    <div class="brand" style="padding: 0 2rem; margin-bottom: 3rem;">
+      <h2>eCampus</h2>
+    </div>
+    <nav class="menu" style="display: flex; flex-direction: column; gap: 0.5rem;">
+      <a routerLink="/organisateur/dashboard" class="menu-item" style="padding: 1rem 2rem; color: white; text-decoration: none;">
+        <span class="icon">📊</span> Tableau de bord
+      </a>
+      <a routerLink="/organisateur/evenements" class="menu-item" style="padding: 1rem 2rem; color: white; text-decoration: none;">
+        <span class="icon">📅</span> Mes Événements
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content" style="flex: 1; padding: 2rem; background: #f8f9fa;">
+    <header class="top-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+      <div class="page-title">
+        <h1>Liste des Participants</h1>
+        <p class="subtitle" style="color: gray; margin: 0;">Gestion des inscriptions pour l'événement #{{ evenementId }}</p>
+      </div>
+      <button class="btn-create" routerLink="/organisateur/dashboard" style="background: #f1f3f4; color: #3c4043; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-weight: 500;">
+        🔙 Retour
+      </button>
+    </header>
+
+    <div class="form-card" style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+      <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+        <tr style="border-bottom: 2px solid #f1f3f4; height: 45px; color: #70757a; font-size: 0.9rem;">
+          <th>Nom de l'étudiant</th>
+          <th>Adresse Email</th>
+          <th>Date d'inscription</th>
+          <th>Statut de la demande</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (etudiant of inscrits; track etudiant.email) {
+        <tr style="border-bottom: 1px solid #f1f3f4; height: 55px; font-size: 0.95rem;">
+          <td style="font-weight: 500; color: #202124;">{{ etudiant.nom }}</td>
+          <td style="color: #5f6368;">{{ etudiant.email }}</td>
+          <td style="color: #5f6368;">{{ etudiant.dateInscription }}</td>
+          <td>
+                <span [style.color]="etudiant.statut === 'CONFIRMÉ' ? '#188038' : '#b06000'"
+                      style="font-weight: 600; padding: 0.3rem 0.6rem; background: #f1f3f4; border-radius: 6px; font-size: 0.85rem;">
+                  {{ etudiant.statut }}
+                </span>
+          </td>
+        </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>

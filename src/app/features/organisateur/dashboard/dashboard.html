@@ -5,31 +5,23 @@
       <h2>eCampus</h2>
     </div>
     <nav class="menu">
-      <a href="#" class="menu-item">
+      <a routerLink="/organisateur/dashboard" routerLinkActive="active" class="menu-item">
         <span class="icon">📊</span> Tableau de bord
       </a>
-      <a href="#" class="menu-item active">
+      <a routerLink="/organisateur/evenements" routerLinkActive="active" class="menu-item">
         <span class="icon">📅</span> Mes Événements
-      </a>
-      <a href="#" class="menu-item">
-        <span class="icon">📈</span> Statistiques
-      </a>
-      <a href="#" class="menu-item">
-        <span class="icon">🏢</span> Salles & Espaces
       </a>
     </nav>
   </aside>
 
   <main class="main-content">
-
     <header class="top-header">
       <div class="page-title">
         <h1>Événements</h1>
         <p class="subtitle">7 événements trouvés</p>
       </div>
       <div class="user-profile">
-        <button class="btn-create">+ Nouvel Événement</button>
-        <div class="avatar">👤</div>
+        <button class="btn-create" routerLink="/organisateur/evenements/nouveau">+ Nouvel Événement</button>
       </div>
     </header>
 
@@ -41,15 +33,14 @@
     </div>
 
     <div class="data-list">
-
       <div class="list-header">
-        <div class="col-id">Réf</div>
-        <div class="col-name">Titre de l'événement</div>
+        <div class="col-id">ID</div>
+        <div class="col-name">Nom</div>
         <div class="col-place">Lieu</div>
         <div class="col-date">Date</div>
-        <div class="col-cap">Capacité</div>
+        <div class="col-cap">Cap.</div>
         <div class="col-status">Statut</div>
-        <div class="col-action">Action</div>
+        <div class="col-action">Actions</div>
       </div>
 
       <div class="list-row">
@@ -59,7 +50,10 @@
         <div class="col-date text-gray">15 Juin 2026</div>
         <div class="col-cap text-gray">150</div>
         <div class="col-status"><span class="dot dot-pending"></span> En attente</div>
-        <div class="col-action"><button class="icon-btn">⚙️</button></div>
+        <div class="col-action">
+          <button class="icon-btn" [routerLink]="['/organisateur/evenements/modifier', 1042]" title="Modifier">⚙️</button>
+          <button class="icon-btn" [routerLink]="['/organisateur/evenements', 1042, 'inscrits']" title="Voir les participants">👥</button>
+        </div>
       </div>
 
       <div class="list-row row-active">
@@ -69,19 +63,11 @@
         <div class="col-date">22 Juin 2026</div>
         <div class="col-cap">300</div>
         <div class="col-status"><span class="dot dot-success"></span> Validé</div>
-        <div class="col-action"><button class="icon-btn text-white">⚙️</button></div>
+        <div class="col-action">
+          <button class="icon-btn" [routerLink]="['/organisateur/evenements/modifier', 1043]" title="Modifier">⚙️</button>
+          <button class="icon-btn" [routerLink]="['/organisateur/evenements', 1043, 'inscrits']" title="Voir les participants">👥</button>
+        </div>
       </div>
-
-      <div class="list-row">
-        <div class="col-id text-gray">#1044</div>
-        <div class="col-name font-medium">Atelier CV & Emploi</div>
-        <div class="col-place text-gray">Salle Info 204</div>
-        <div class="col-date text-gray">02 Juil 2026</div>
-        <div class="col-cap text-gray">30</div>
-        <div class="col-status"><span class="dot dot-success"></span> Validé</div>
-        <div class="col-action"><button class="icon-btn">⚙️</button></div>
-      </div>
-
     </div>
   </main>
 </div>

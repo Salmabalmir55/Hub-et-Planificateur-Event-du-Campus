@@ -1,65 +1,40 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { OrganisateurService } from '../services/organisateur.service';
+import { Component, inject } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
+// 1. IMPORT OBLIGATOIRE POUR UTILISER [(ngModel)]
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-event-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  // 2. AJOUTER FormsModule ICI
+  imports: [RouterLink, FormsModule],
   templateUrl: './event-form.html',
   styleUrls: ['./event-form.scss']
 })
-export class EventFormComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private orgaService = inject(OrganisateurService);
+export class EventFormComponent {
   private router = inject(Router);
 
-  eventForm!: FormGroup;
+  // 3. DÉCLARATION DES VARIABLES (Ce qui corrige l'erreur "Property does not exist")
+  titre: string = '';
+  categorie: string = 'Conférence'; // Valeur par défaut
+  capacite: number = 150;
+  dateHeure: string = '';
+  salle: string = 'Amphi A (500 places)';
+  description: string = '';
 
-  // Listes pour remplir les menus déroulants
-  categories: any[] = [];
-  salles: any[] = [];
-
-  ngOnInit(): void {
-    // 1. Initialisation du formulaire et des règles de validation
-    this.eventForm = this.fb.group({
-      titre: ['', [Validators.required, Validators.minLength(5)]],
-      description: ['', Validators.required],
-      dateDebut: ['', Validators.required],
-      dateFin: ['', Validators.required],
-      capaciteMax: [10, [Validators.required, Validators.min(1)]],
-      categorieId: ['', Validators.required],
-      salleId: ['', Validators.required],
-      ressourcesIds: [[]] // Pour une sélection multiple
+  // 4. LA MÉTHODE APPELÉE QUAND ON CLIQUE SUR "Soumettre"
+  onSubmit() {
+    // Pour l'instant, on affiche juste les données dans la console
+    console.log('Nouvel événement créé avec :', {
+      titre: this.titre,
+      categorie: this.categorie,
+      capacite: this.capacite,
+      dateHeure: this.dateHeure,
+      salle: this.salle,
+      description: this.description
     });
 
-    // 2. Chargement des données pour les sélecteurs
-    this.chargerDonneesSélecteurs();
-  }
-
-  chargerDonneesSélecteurs(): void {
-    this.orgaService.getCategories().subscribe(data => this.categories = data);
-    this.orgaService.getSalles().subscribe(data => this.salles = data);
-  }
-
-  onSubmit(): void {
-    if (this.eventForm.valid) {
-      // Le formulaire par défaut aura le statut EN_ATTENTE côté Spring Boot
-      this.orgaService.creerEvenement(this.eventForm.value).subscribe({
-        next: () => {
-          alert('Événement créé avec succès et en attente de validation !');
-          this.router.navigate(['/organisateur/evenements']);
-        },
-        error: (err) => {
-          console.error('Erreur lors de la création', err);
-          alert('Erreur lors de la création de l\'événement.');
-        }
-      });
-    } else {
-      // Marque tous les champs comme touchés pour afficher les erreurs HTML
-      this.eventForm.markAllAsTouched();
-    }
+    // Redirection automatique vers le tableau de bord
+    this.router.navigate(['/organisateur/dashboard']);
   }
 }

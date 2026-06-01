@@ -3,9 +3,9 @@
   <aside class="sidebar">
     <div class="brand"><h2>eCampus</h2></div>
     <nav class="menu">
-      <a href="#" class="menu-item"><span class="icon">📊</span> Tableau de bord</a>
-      <a href="#" class="menu-item"><span class="icon">📅</span> Mes Événements</a>
-      <a href="#" class="menu-item active"><span class="icon">✍️</span> Nouvel Événement</a>
+      <a routerLink="/organisateur/dashboard" class="menu-item"><span class="icon">📊</span> Tableau de bord</a>
+      <a routerLink="/organisateur/evenements" class="menu-item"><span class="icon">📅</span> Mes Événements</a>
+      <a routerLink="/organisateur/evenements/nouveau" routerLinkActive="active" class="menu-item"><span class="icon">✍️</span> Nouvel Événement</a>
     </nav>
   </aside>
 
@@ -18,18 +18,18 @@
     </header>
 
     <div class="form-card">
-      <form class="saas-form">
+      <form class="saas-form" (ngSubmit)="onSubmit()">
 
         <div class="form-section-title">Informations Générales</div>
         <div class="form-grid">
           <div class="input-group full-width">
             <label>Titre de l'événement</label>
-            <input type="text" placeholder="Ex: Hackathon IA 2026">
+            <input type="text" name="titre" [(ngModel)]="titre" placeholder="Ex: Hackathon IA 2026" required>
           </div>
 
           <div class="input-group">
             <label>Catégorie</label>
-            <select>
+            <select name="categorie" [(ngModel)]="categorie">
               <option>Conférence</option>
               <option>Atelier Pratique</option>
               <option>Événement Sportif</option>
@@ -39,7 +39,7 @@
 
           <div class="input-group">
             <label>Capacité Max.</label>
-            <input type="number" placeholder="Ex: 150">
+            <input type="number" name="capacite" [(ngModel)]="capacite" placeholder="Ex: 150">
           </div>
         </div>
 
@@ -47,12 +47,12 @@
         <div class="form-grid">
           <div class="input-group">
             <label>Date et Heure</label>
-            <input type="datetime-local">
+            <input type="datetime-local" name="dateHeure" [(ngModel)]="dateHeure">
           </div>
 
           <div class="input-group">
             <label>Salle souhaitée</label>
-            <select>
+            <select name="salle" [(ngModel)]="salle">
               <option>Amphi A (500 places)</option>
               <option>Salle Info 204 (30 places)</option>
               <option>Gymnase (1000 places)</option>
@@ -61,13 +61,13 @@
 
           <div class="input-group full-width">
             <label>Description détaillée</label>
-            <textarea rows="4" placeholder="Décrivez le programme, les intervenants..."></textarea>
+            <textarea rows="4" name="description" [(ngModel)]="description" placeholder="Décrivez le programme, les intervenants..."></textarea>
           </div>
         </div>
 
         <div class="form-actions">
-          <button type="button" class="btn-cancel">Annuler</button>
-          <button type="submit" class="btn-submit">Soumettre pour validation</button>
+          <button type="button" class="btn-cancel" routerLink="/organisateur/dashboard">Annuler</button>
+          <button type="submit" class="btn-submit">Soumettre la demande</button>
         </div>
       </form>
     </div>
