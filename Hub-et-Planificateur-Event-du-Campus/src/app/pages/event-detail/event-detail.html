@@ -1,0 +1,193 @@
+<!-- src/app/pages/event-detail/event-detail.html -->
+
+<div class="detail-container">
+
+  <!-- État de chargement -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des détails de l'événement...</p>
+  </div>
+
+  <!-- Messages d'erreur et succès -->
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    <i class="fa-solid fa-circle-check"></i>
+    <p>{{ successMessage }}</p>
+  </div>
+
+  <!-- Bouton retour -->
+  <a routerLink="/catalog" class="back-link" *ngIf="!isLoading">
+    <i class="fa-solid fa-arrow-left"></i> Retour au Catalogue
+  </a>
+
+  <!-- Détails de l'événement -->
+  <div class="detail-card" *ngIf="!isLoading && event.title">
+    <div class="detail-image-wrapper">
+      <div class="placeholder-img">
+        <i class="fa-regular fa-calendar-days"></i>
+      </div>
+      <span class="price-badge" [class.complet]="event.price === 'Complet'" [class.urgent]="event.price === 'Dernières places !'">
+        {{ event.price }}
+      </span>
+      <span class="statut-badge" [class.valide]="event.statut === 'VALIDE'" [class.attente]="event.statut === 'EN_ATTENTE'">
+        {{ event.statut === 'VALIDE' ? '✓ Validé' : '⏳ En attente' }}
+      </span>
+    </div>
+
+    <div class="detail-content">
+      <h1 class="event-title">{{ event.title }}</h1>
+
+      <div class="event-meta">
+        <div class="meta-item">
+          <i class="fa-regular fa-calendar"></i>
+          <span>{{ event.date }}</span>
+        </div>
+        <div class="meta-item">
+          <i class="fa-regular fa-clock"></i>
+          <span>{{ event.time }}</span>
+        </div>
+        <div class="meta-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>{{ event.location }}</span>
+        </div>
+        <div class="meta-item">
+          <i class="fa-solid fa-user-tie"></i>
+          <span>Organisé par : {{ event.organizer }}</span>
+        </div>
+        <div class="meta-item" *ngIf="event.capaciteMax > 0">
+          <i class="fa-solid fa-users"></i>
+          <span>Capacité maximale : {{ event.capaciteMax }} personnes</span>
+        </div>
+      </div>
+
+      <div class="event-description">
+        <h3>À propos de cet événement</h3>
+        <p>{{ event.description }}</p>
+      </div>
+
+      <div class="detail-footer">
+        <div class="seats-info" [class.low-seats]="event.placesRestantes < 10 && event.placesRestantes > 0" [class.complet]="event.placesRestantes === 0">
+          <i class="fa-solid fa-ticket"></i>
+          <span>
+            <strong>{{ event.placesRestantes }}</strong>
+            place{{ event.placesRestantes > 1 ? 's' : '' }} restante{{ event.placesRestantes > 1 ? 's' : '' }}
+          </span>
+        </div>
+
+        <button class="enroll-btn"
+                (click)="sinscrireEvenement()"
+                [disabled]="event.placesRestantes === 0 || event.statut !== 'VALIDE'"
+                [title]="event.statut !== 'VALIDE' ? 'Événement en attente de validation' : (event.placesRestantes === 0 ? 'Plus de places disponibles' : '')">
+          {{ event.statut !== 'VALIDE' ? 'En attente de validation' : (event.placesRestantes === 0 ? 'Complet' : 'S\'inscrire') }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SECTION DES AVIS (POUR ADMIN ET ORGANISATEUR) ========== -->
+  <div class="feedbacks-section" *ngIf="!isLoading && feedbacks && feedbacks.length > 0 && (userRole === 'ROLE_ADMIN' || userRole === 'ROLE_ORGANISATEUR')">
+    <h3>
+      <i class="fa-regular fa-star"></i>
+      Avis des participants ({{ averageRating | number:'1.1-1' }}/5) - {{ feedbacks.length }} avis
+    </h3>
+
+    <div class="feedbacks-list">
+      <div class="feedback-item" *ngFor="let fb of feedbacks">
+        <div class="feedback-header">
+          <strong class="feedback-author">{{ fb.utilisateurPrenom || fb.utilisateurNom || 'Étudiant' }}</strong>
+          <div class="feedback-rating">
+            <i *ngFor="let s of [1,2,3,4,5]" class="fa-star" [class.active]="s <= fb.note"></i>
+            <span>{{ fb.note }}/5</span>
+          </div>
+        </div>
+        <p class="feedback-comment">{{ fb.commentaire || 'Aucun commentaire' }}</p>
+        <span class="feedback-date">{{ fb.dateCreation | date:'dd/MM/yyyy' }}</span>
+        <!-- Badge d'approbation pour admin -->
+        <div *ngIf="userRole === 'ROLE_ADMIN'" class="feedback-admin-actions">
+          <span class="status-badge" [class.approuve]="fb.approuve" [class.pending]="!fb.approuve">
+            {{ fb.approuve ? '✅ Approuvé' : '⏳ En attente' }}
+          </span>
+          <button *ngIf="!fb.approuve" class="btn-approve-small" (click)="approuverFeedback(fb.id)">
+            Approuver
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FORMULAIRE POUR DONNER SON AVIS (UNIQUEMENT POUR ÉTUDIANT) ========== -->
+  <div class="feedback-form-section" *ngIf="!isLoading && event.statut === 'VALIDE' && isPast && !userHasGivenFeedback && userRole === 'ROLE_ETUDIANT'">
+    <h3>
+      <i class="fa-regular fa-star"></i>
+      Donnez votre avis
+    </h3>
+    <p>Partagez votre expérience sur cet événement</p>
+
+    <div class="feedback-form">
+      <!-- Étoiles -->
+      <div class="rating-input">
+        <label>Votre note <span class="required">*</span></label>
+        <div class="stars-input">
+          <i *ngFor="let s of stars"
+             class="fa-star"
+             [class.fa-solid]="s <= newRating"
+             [class.fa-regular]="s > newRating"
+             (click)="setRating(s)"
+             (mouseenter)="hoverRating = s"
+             (mouseleave)="hoverRating = 0">
+          </i>
+          <span class="rating-value" *ngIf="newRating > 0">{{ newRating }}/5</span>
+        </div>
+      </div>
+
+      <!-- Commentaire -->
+      <div class="comment-input">
+        <label>Votre commentaire <span class="required">*</span></label>
+        <textarea [(ngModel)]="newComment"
+                  rows="4"
+                  placeholder="Qu'avez-vous pensé de cet événement ?"></textarea>
+        <small class="char-count">{{ newComment.length }}/500</small>
+      </div>
+
+      <!-- Boutons -->
+      <div class="feedback-actions">
+        <button class="btn-submit-feedback"
+                (click)="submitFeedback()"
+                [disabled]="isSubmittingFeedback || newRating === 0">
+          <i class="fa-regular fa-paper-plane"></i>
+          {{ isSubmittingFeedback ? 'Envoi...' : 'Envoyer mon avis' }}
+        </button>
+      </div>
+
+      <div *ngIf="feedbackSuccessMessage" class="success-message-small">
+        ✅ {{ feedbackSuccessMessage }}
+      </div>
+      <div *ngIf="feedbackErrorMessage" class="error-message-small">
+        ⚠️ {{ feedbackErrorMessage }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Message si déjà donné son avis (pour étudiant) -->
+  <div class="already-feedback" *ngIf="!isLoading && event.statut === 'VALIDE' && isPast && userHasGivenFeedback && userRole === 'ROLE_ETUDIANT'">
+    <i class="fa-solid fa-check-circle"></i>
+    <p>Vous avez déjà donné votre avis sur cet événement. Merci !</p>
+  </div>
+
+  <!-- Message si événement non terminé (pour étudiant) -->
+  <div class="cannot-feedback" *ngIf="!isLoading && event.statut === 'VALIDE' && !isPast && userRole === 'ROLE_ETUDIANT'">
+    <i class="fa-regular fa-clock"></i>
+    <p>Vous pourrez donner votre avis une fois l'événement terminé.</p>
+  </div>
+
+  <!-- Message si aucun événement chargé -->
+  <div *ngIf="!isLoading && !event.title && !errorMessage" class="error-message">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <p>Aucun événement trouvé.</p>
+    <a routerLink="/catalog" class="back-link" style="margin-top: 10px;">← Retour au catalogue</a>
+  </div>
+</div>

@@ -1,0 +1,752 @@
+/* ========================================
+   EVENT-FORM.CSS - FORMULAIRE ÉVÉNEMENT
+   Version 3.0 - Style Ultime
+   ======================================== */
+
+/* ========================================
+   VARIABLES
+   ======================================== */
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --primary-light: #e0e7ff;
+  --primary-bg: #eef2ff;
+  --secondary: #10b981;
+  --secondary-light: #d1fae5;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --info: #3b82f6;
+  --info-light: #dbeafe;
+  --dark: #0f172a;
+  --dark-light: #1e293b;
+  --gray: #64748b;
+  --gray-light: #94a3b8;
+  --gray-lighter: #cbd5e1;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --bg: #f8fafc;
+  --bg-dark: #f1f5f9;
+  --white: #ffffff;
+
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.9; }
+}
+
+/* ========================================
+   CONTAINER PRINCIPAL
+   ======================================== */
+.saas-app-container {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-dark) 100%);
+}
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+.sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, var(--dark) 0%, #1a1a2e 100%);
+  backdrop-filter: blur(10px);
+  color: var(--white);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+  transition: var(--transition);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.sidebar .brand {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.sidebar .brand h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar .brand h2::before {
+  font-size: 1.6rem;
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0 1rem;
+}
+
+.sidebar .menu .menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  border-radius: 12px;
+  transition: var(--transition);
+  font-weight: 500;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar .menu .menu-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  transition: width 0.3s ease;
+}
+
+.sidebar .menu .menu-item:hover::before {
+  width: 100%;
+}
+
+.sidebar .menu .menu-item:hover {
+  color: var(--white);
+  transform: translateX(4px);
+}
+
+.sidebar .menu .menu-item .icon {
+  font-size: 1.25rem;
+  width: 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar .menu .menu-item span:not(.icon) {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar .menu .menu-item.active {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+.main-content {
+  flex: 1;
+  padding: 2rem 2.5rem;
+  overflow-y: auto;
+  animation: slideInLeft 0.4s ease-out;
+}
+
+.main-content .top-header {
+  margin-bottom: 2rem;
+}
+
+.main-content .top-header .page-title h1 {
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.main-content .top-header .page-title .subtitle {
+  color: var(--gray);
+  margin: 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.main-content .top-header .page-title .subtitle::before {
+  font-size: 1rem;
+}
+
+/* ========================================
+   MESSAGE D'ERREUR
+   ======================================== */
+.error-message {
+  background-color: var(--danger-light);
+  color: var(--danger);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-left: 4px solid var(--danger);
+  animation: fadeIn 0.3s;
+  font-size: 0.9rem;
+}
+
+.error-message i {
+  font-size: 1.1rem;
+}
+
+/* ========================================
+   FORM CARD
+   ======================================== */
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+  animation: slideInRight 0.4s ease-out;
+}
+
+.form-card:hover {
+  box-shadow: var(--shadow-2xl);
+}
+
+/* ========================================
+   SAAS FORM
+   ======================================== */
+.saas-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.saas-form .form-section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark);
+  border-left: 4px solid var(--primary);
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.saas-form .form-section-title::before {
+  font-size: 1.2rem;
+}
+
+.saas-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.saas-form .full-width {
+  grid-column: span 2;
+}
+
+.saas-form .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.saas-form .input-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.saas-form .input-group label .required {
+  color: var(--danger);
+  font-size: 0.8rem;
+}
+
+.saas-form .input-group input,
+.saas-form .input-group select,
+.saas-form .input-group textarea {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: var(--white);
+  transition: var(--transition);
+  color: var(--dark);
+}
+
+.saas-form .input-group input:hover,
+.saas-form .input-group select:hover,
+.saas-form .input-group textarea:hover {
+  border-color: var(--primary-light);
+}
+
+.saas-form .input-group input:focus,
+.saas-form .input-group select:focus,
+.saas-form .input-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  transform: translateY(-1px);
+}
+
+.saas-form .input-group input::placeholder,
+.saas-form .input-group select::placeholder,
+.saas-form .input-group textarea::placeholder {
+  color: var(--gray-light);
+  font-size: 0.85rem;
+}
+
+.saas-form .input-group select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2rem;
+}
+
+.saas-form .input-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.saas-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.saas-form .form-actions button {
+  padding: 0.875rem 2rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: var(--transition);
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.saas-form .form-actions .btn-cancel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--gray);
+}
+
+.saas-form .form-actions .btn-cancel::before {
+  content: '✕';
+  font-size: 0.9rem;
+}
+
+.saas-form .form-actions .btn-cancel:hover {
+  background: var(--bg);
+  color: var(--dark);
+  border-color: var(--gray-light);
+  transform: translateY(-2px);
+}
+
+.saas-form .form-actions .btn-submit {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border: none;
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.saas-form .form-actions .btn-submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.saas-form .form-actions .btn-submit:hover::before {
+  left: 100%;
+}
+
+.saas-form .form-actions .btn-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.saas-form .form-actions .btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========================================
+   DATE PICKER STYLES
+   ======================================== */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+  background: var(--primary-light);
+  transform: scale(1.1);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 80px;
+  }
+
+  .sidebar .brand h2 {
+    font-size: 0;
+  }
+
+  .sidebar .brand h2::before {
+    font-size: 1.5rem;
+  }
+
+  .sidebar .menu-item span:not(.icon) {
+    display: none;
+  }
+
+  .sidebar .menu-item {
+    justify-content: center;
+    padding: 0.875rem;
+  }
+
+  .main-content {
+    margin-left: 80px;
+    padding: 1.5rem;
+  }
+
+  .form-card {
+    padding: 1.5rem;
+  }
+
+  .saas-form .form-grid {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .form-card {
+    padding: 1.25rem;
+    border-radius: var(--radius-xl);
+  }
+
+  .saas-form {
+    gap: 1.5rem;
+  }
+
+  .saas-form .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .saas-form .full-width {
+    grid-column: span 1;
+  }
+
+  .saas-form .form-section-title {
+    font-size: 1rem;
+  }
+
+  .saas-form .input-group input,
+  .saas-form .input-group select,
+  .saas-form .input-group textarea {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .saas-form .input-group label {
+    font-size: 0.8rem;
+  }
+
+  .saas-form .form-actions {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+
+  .saas-form .form-actions button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0.75rem;
+  }
+
+  .form-card {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .saas-form .form-section-title {
+    font-size: 0.9rem;
+  }
+
+  .saas-form .input-group input,
+  .saas-form .input-group select,
+  .saas-form .input-group textarea {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .saas-form .form-actions button {
+    padding: 0.625rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --white: #1e293b;
+    --dark: #f1f5f9;
+    --border: #334155;
+    --gray: #94a3b8;
+  }
+
+  .form-card {
+    background: var(--white);
+    border-color: var(--border);
+  }
+
+  .saas-form .input-group label {
+    color: var(--dark);
+  }
+
+  .saas-form .input-group input,
+  .saas-form .input-group select,
+  .saas-form .input-group textarea {
+    background: var(--bg);
+    border-color: var(--border);
+    color: var(--dark);
+  }
+
+  .saas-form .input-group input:focus,
+  .saas-form .input-group select:focus,
+  .saas-form .input-group textarea:focus {
+    background: var(--white);
+  }
+}
+
+/* ========================================
+   UTILITAIRES
+   ======================================== */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-5 { margin-top: 1.5rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-5 { margin-bottom: 1.5rem; }
+/* Ajoutez à la fin de votre event-form.css */
+.success-message {
+  background-color: var(--secondary-light);
+  color: var(--secondary);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-left: 4px solid var(--secondary);
+  animation: fadeIn 0.3s;
+  font-size: 0.9rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 1rem;
+}
+/* Style pour le select (catégorie) */
+.saas-form select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2rem;
+  cursor: pointer;
+}
+
+.saas-form select.form-control:hover {
+  border-color: var(--primary-light);
+}
+
+.saas-form select.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+/* Style pour le hint du formulaire */
+.form-hint {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--gray-light);
+  margin-top: 0.25rem;
+}
+
+/* Animation pour le champ "Autre" */
+.input-group.full-width {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.alert-warning {
+  background-color: #fef3c7;
+  color: #d97706;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  border: 1px solid #fde68a;
+}
+
+.alert-info {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Désactiver les options indisponibles dans le select */
+select option[disabled] {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+}

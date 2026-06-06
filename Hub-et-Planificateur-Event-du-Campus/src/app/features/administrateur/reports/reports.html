@@ -1,0 +1,81 @@
+<div class="saas-app-container">
+
+  <aside class="sidebar admin-sidebar">
+    <div class="brand"><h2>Admin eCampus</h2></div>
+    <nav class="menu">
+      <a routerLink="/administrateur/validation" routerLinkActive="active" class="menu-item">
+        <span class="icon">🛡️</span> Validations
+      </a>
+      <a routerLink="/administrateur/users" routerLinkActive="active" class="menu-item">
+        <span class="icon">👥</span> Utilisateurs
+      </a>
+      <a routerLink="/administrateur/reports" routerLinkActive="active" class="menu-item">
+        <span class="icon">📑</span> Rapports
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-header">
+      <div class="page-title">
+        <h1>Rapports & Analyses</h1>
+        <p class="subtitle">Vue d'ensemble de l'activité globale du Hub Événementiel</p>
+      </div>
+    </header>
+
+    <div *ngIf="isLoading" class="loading-state">
+      <p>Chargement des statistiques...</p>
+    </div>
+
+    <section class="stats-summary-grid" *ngIf="stats && !isLoading">
+      <div class="stat-mini-card">
+        <span class="card-label">Événements ce mois</span>
+        <div class="card-value-wrapper">
+          <h2>{{ stats.evenementsCeMois }}</h2>
+        </div>
+      </div>
+
+      <div class="stat-mini-card">
+        <span class="card-label">Taux de participation moyen</span>
+        <div class="card-value-wrapper">
+          <h2>{{ stats.tauxParticipationMoyen | number:'1.0-0' }}%</h2>
+        </div>
+      </div>
+
+      <div class="stat-mini-card">
+        <span class="card-label">Utilisateurs inscrits</span>
+        <div class="card-value-wrapper">
+          <h2>{{ stats.totalUtilisateurs }}</h2>
+          <div class="sub-details">
+            <span>👨‍🎓 {{ stats.totalEtudiants }} étudiants</span>
+            <span>👔 {{ stats.totalOrganisateurs }} organisateurs</span>
+            <span>👑 {{ stats.totalAdmins }} admins</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-mini-card">
+        <span class="card-label">Total événements</span>
+        <div class="card-value-wrapper">
+          <h2>{{ stats.totalEvenements }}</h2>
+          <span class="sub-text">dont {{ stats.evenementsAVenir }} à venir</span>
+        </div>
+      </div>
+
+      <div class="stat-mini-card">
+        <span class="card-label">Inscriptions totales</span>
+        <div class="card-value-wrapper">
+          <h2>{{ stats.totalInscriptions }}</h2>
+        </div>
+      </div>
+
+      <div class="stat-mini-card">
+        <span class="card-label">Ratio Étudiants/Organisateurs</span>
+        <div class="card-value-wrapper">
+          <h2>{{ stats.totalEtudiants }} / {{ stats.totalOrganisateurs }}</h2>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>

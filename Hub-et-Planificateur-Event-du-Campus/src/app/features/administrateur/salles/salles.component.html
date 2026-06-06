@@ -1,0 +1,102 @@
+<div class="admin-salles-container">
+  <div class="header">
+    <h1>
+      <i class="fa-solid fa-building"></i>
+      Gestion des Salles
+    </h1>
+    <button class="btn-add" (click)="navigateToCreate()">
+      <i class="fa-solid fa-plus"></i>
+      Nouvelle Salle
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des salles...</p>
+  </div>
+
+  <!-- Filters -->
+  <div *ngIf="!loading" class="filters-section">
+    <div class="search-box">
+      <i class="fa-solid fa-search"></i>
+      <input
+        type="text"
+        [value]="searchTerm"
+        (input)="onSearchChange($event)"
+        placeholder="Rechercher une salle..."
+        class="search-input"
+      >
+    </div>
+    <div class="filter-buttons">
+      <button class="filter-btn" [class.active]="filterDisponible === null" (click)="filterDisponible = null; applyFilters()">
+        Toutes
+      </button>
+      <button class="filter-btn disponible" [class.active]="filterDisponible === true" (click)="filterDisponible = true; applyFilters()">
+        <i class="fa-solid fa-check-circle"></i> Disponibles
+      </button>
+      <button class="filter-btn indisponible" [class.active]="filterDisponible === false" (click)="filterDisponible = false; applyFilters()">
+        <i class="fa-solid fa-times-circle"></i> Indisponibles
+      </button>
+      <button class="filter-btn reset" (click)="resetFilters()">
+        <i class="fa-solid fa-undo"></i> Réinitialiser
+      </button>
+    </div>
+  </div>
+
+  <!-- Salles Grid -->
+  <div *ngIf="!loading" class="salles-grid">
+    <div *ngFor="let salle of filteredSalles" class="salle-card" [class.indisponible]="!salle.disponible">
+      <div class="card-header">
+        <div class="salle-info">
+          <div class="salle-icon">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <div>
+            <h3>{{ salle.nom }}</h3>
+            <span class="type-badge">{{ salle.type || 'Salle' }}</span>
+          </div>
+        </div>
+        <div class="status-toggle">
+          <label class="switch">
+            <input type="checkbox" [checked]="salle.disponible" (change)="toggleDisponible(salle)">
+            <span class="slider round"></span>
+          </label>
+          <span class="status-text">{{ salle.disponible ? 'Disponible' : 'Indisponible' }}</span>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="detail-row">
+          <i class="fa-solid fa-users"></i>
+          <span>Capacité: <strong>{{ salle.capacite }} places</strong></span>
+        </div>
+        <div class="detail-row">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>{{ salle.localisation }}</span>
+        </div>
+        <div class="detail-row">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>{{ salle.equipements ? (salle.equipements.length > 50 ? salle.equipements.substring(0, 50) + '...' : salle.equipements) : 'Aucun équipement' }}</span>        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn-detail" (click)="navigateToDetail(salle.id)">
+          <i class="fa-solid fa-eye"></i> Détails
+        </button>
+        <button class="btn-edit" (click)="navigateToEdit(salle.id)">
+          <i class="fa-solid fa-edit"></i> Modifier
+        </button>
+        <button class="btn-delete" (click)="supprimerSalle(salle.id)">
+          <i class="fa-solid fa-trash"></i> Supprimer
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="filteredSalles.length === 0" class="no-results">
+      <i class="fa-solid fa-building-circle-exclamation"></i>
+      <h3>Aucune salle trouvée</h3>
+      <button class="btn-reset" (click)="resetFilters()">Réinitialiser les filtres</button>
+    </div>
+  </div>
+</div>

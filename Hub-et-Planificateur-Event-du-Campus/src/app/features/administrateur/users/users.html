@@ -1,0 +1,158 @@
+<div class="saas-app-container">
+
+  <aside class="sidebar admin-sidebar">
+    <div class="brand"><h2>Admin eCampus</h2></div>
+    <nav class="menu">
+      <a routerLink="/administrateur/validation" routerLinkActive="active" class="menu-item">
+        <span class="icon">🛡️</span> Validations
+      </a>
+      <a routerLink="/administrateur/users" routerLinkActive="active" class="menu-item">
+        <span class="icon">👥</span> Utilisateurs
+      </a>
+      <a routerLink="/administrateur/reports" routerLinkActive="active" class="menu-item">
+        <span class="icon">📑</span> Rapports
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-header">
+      <div class="page-title">
+        <h1>Gestion des Utilisateurs</h1>
+        <p class="subtitle">{{ users.length }} comptes enregistrés sur la plateforme</p>
+      </div>
+      <div class="user-profile">
+        <button class="btn-create" (click)="showForm = !showForm">+ Ajouter un utilisateur</button>
+      </div>
+    </header>
+
+    <!-- Formulaire d'ajout -->
+    <div class="add-user-form" *ngIf="showForm">
+      <div class="form-card">
+        <div class="form-header">
+          <h2>Ajouter un utilisateur</h2>
+          <p>Remplissez les informations pour créer un nouveau compte</p>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <span>⚠️</span> {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">
+          <span>✅</span> {{ successMessage }}
+        </div>
+
+        <form (ngSubmit)="onSubmitNewUser()">
+          <div class="form-group">
+            <label>Nom <span class="required">*</span></label>
+            <input type="text" [(ngModel)]="newUser.nom" name="nom" required>
+          </div>
+
+          <div class="form-group">
+            <label>Prénom <span class="required">*</span></label>
+            <input type="text" [(ngModel)]="newUser.prenom" name="prenom" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email <span class="required">*</span></label>
+            <input type="email" [(ngModel)]="newUser.email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label>Mot de passe <span class="required">*</span></label>
+            <input type="password" [(ngModel)]="newUser.motDePasse" name="motDePasse" required>
+          </div>
+
+          <div class="form-group">
+            <label>Téléphone</label>
+            <input type="tel" [(ngModel)]="newUser.telephone" name="telephone" placeholder="0612345678">
+          </div>
+
+          <!-- Champs spécifiques pour ÉTUDIANT -->
+          <div *ngIf="newUser.role === 'ROLE_ETUDIANT'">
+            <div class="form-group">
+              <label>Matricule <span class="required">*</span></label>
+              <input type="text" [(ngModel)]="newUser.matricule" name="matricule" placeholder="20240001" required>
+            </div>
+            <div class="form-group">
+              <label>Filière</label>
+              <input type="text" [(ngModel)]="newUser.filiere" name="filiere" placeholder="Informatique">
+            </div>
+            <div class="form-group">
+              <label>Niveau</label>
+              <select [(ngModel)]="newUser.niveau" name="niveau">
+                <option value="LICENCE_1">Licence 1</option>
+                <option value="LICENCE_2">Licence 2</option>
+                <option value="LICENCE_3">Licence 3</option>
+                <option value="MASTER_1">Master 1</option>
+                <option value="MASTER_2">Master 2</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Rôle <span class="required">*</span></label>
+            <select [(ngModel)]="newUser.role" name="role">
+              <option value="ROLE_ETUDIANT">Étudiant</option>
+              <option value="ROLE_ORGANISATEUR">Organisateur</option>
+              <option value="ROLE_ADMIN">Administrateur</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="cancelForm()">Annuler</button>
+            <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Création...' : 'Créer' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab" [class.active]="activeFilter === 'Tous'" (click)="setFilter('Tous')">Tous</button>
+      <button class="tab" [class.active]="activeFilter === 'Organisateurs'" (click)="setFilter('Organisateurs')">Organisateurs</button>
+      <button class="tab" [class.active]="activeFilter === 'Étudiants'" (click)="setFilter('Étudiants')">Étudiants</button>
+      <button class="tab" [class.active]="activeFilter === 'Suspendus'" (click)="setFilter('Suspendus')">Suspendus</button>
+    </div>
+
+    <div *ngIf="isLoading" style="text-align: center; padding: 2rem;">Chargement...</div>
+
+    <div class="data-list" *ngIf="!isLoading">
+      <div class="list-header">
+        <div class="col-avatar"></div>
+        <div class="col-user-info">Nom / Email</div>
+        <div class="col-role">Rôle</div>
+        <div class="col-date-reg">Inscription</div>
+        <div class="col-user-status">Statut</div>
+        <div class="col-action text-right">Actions</div>
+      </div>
+
+      <div class="list-row" *ngFor="let user of filteredUsers">
+        <div class="col-avatar">
+          <div class="user-pic" [class.admin]="user.role === 'ROLE_ADMIN'">{{ user.initials }}</div>
+        </div>
+        <div class="col-user-info">
+          <span class="font-medium">{{ user.name }}</span>
+          <span class="sub-text">{{ user.email }}</span>
+        </div>
+        <div class="col-role">
+          <span class="role-badge"
+                [class.admin]="user.role === 'ROLE_ADMIN'"
+                [class.orga]="user.roleLabel === 'Organisateur'"
+                [class.student]="user.roleLabel === 'Étudiant'">
+            {{ user.roleLabel }}
+          </span>
+        </div>
+        <div class="col-date-reg text-gray">{{ user.dateInscriptionFormatted }}</div>
+        <div class="col-user-status">
+          <span class="dot" [class.dot-success]="user.actif" [class.dot-danger]="!user.actif"></span>
+          {{ user.statusLabel }}
+        </div>
+        <div class="col-action text-right">
+          <button class="icon-btn" (click)="toggleStatus(user)">⏻</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

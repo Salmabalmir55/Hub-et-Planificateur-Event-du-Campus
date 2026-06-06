@@ -1,0 +1,159 @@
+<div class="reservation-form-container">
+  <button class="btn-back" (click)="goBack()">
+    <i class="fa-solid fa-arrow-left"></i> Retour aux réservations
+  </button>
+
+  <div class="form-card">
+    <div class="form-header">
+      <h1>
+        <i class="fa-solid fa-calendar-plus"></i>
+        {{ isEditMode ? 'Modifier la réservation' : 'Nouvelle réservation' }}
+      </h1>
+    </div>
+
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement...</p>
+    </div>
+
+    <div *ngIf="error" class="error-message">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      {{ error }}
+    </div>
+
+    <form *ngIf="!loading" [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="titre">
+          <i class="fa-solid fa-heading"></i> Titre de l'événement *
+        </label>
+        <input
+          type="text"
+          id="titre"
+          formControlName="titre"
+          class="form-control"
+          [class.is-invalid]="f['titre'].invalid && f['titre'].touched"
+          placeholder="Ex: Conférence sur l'IA"
+        >
+        <div class="invalid-feedback" *ngIf="f['titre'].invalid && f['titre'].touched">
+          Le titre est requis (minimum 3 caractères)
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="salleId">
+          <i class="fa-solid fa-building"></i> Salle *
+        </label>
+        <select id="salleId" formControlName="salleId" class="form-control"
+                [class.is-invalid]="f['salleId'].invalid && f['salleId'].touched">
+          <option value="">Sélectionner une salle</option>
+          <option *ngFor="let salle of salles" [value]="salle.id">
+            {{ salle.nom }} (Capacité: {{ salle.capacite }} places)
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="f['salleId'].invalid && f['salleId'].touched">
+          Veuillez sélectionner une salle
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dateDebut">
+            <i class="fa-solid fa-calendar"></i> Date et heure début *
+          </label>
+          <input
+            type="datetime-local"
+            id="dateDebut"
+            formControlName="dateDebut"
+            class="form-control"
+            [class.is-invalid]="f['dateDebut'].invalid && f['dateDebut'].touched"
+          >
+          <div class="invalid-feedback" *ngIf="f['dateDebut'].invalid && f['dateDebut'].touched">
+            La date de début est requise
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dateFin">
+            <i class="fa-solid fa-calendar"></i> Date et heure fin *
+          </label>
+          <input
+            type="datetime-local"
+            id="dateFin"
+            formControlName="dateFin"
+            class="form-control"
+            [class.is-invalid]="f['dateFin'].invalid && f['dateFin'].touched"
+          >
+          <div class="invalid-feedback" *ngIf="f['dateFin'].invalid && f['dateFin'].touched">
+            La date de fin est requise
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nombreParticipants">
+          <i class="fa-solid fa-users"></i> Nombre de participants *
+        </label>
+        <input
+          type="number"
+          id="nombreParticipants"
+          formControlName="nombreParticipants"
+          class="form-control"
+          [class.is-invalid]="f['nombreParticipants'].invalid && f['nombreParticipants'].touched"
+          min="1"
+        >
+        <div class="invalid-feedback" *ngIf="f['nombreParticipants'].invalid && f['nombreParticipants'].touched">
+          Le nombre de participants doit être au moins 1
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">
+          <i class="fa-solid fa-align-left"></i> Description
+        </label>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="form-control"
+          rows="4"
+          placeholder="Décrivez votre événement..."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="equipements">
+          <i class="fa-solid fa-screwdriver-wrench"></i> Équipements nécessaires
+        </label>
+        <input
+          type="text"
+          id="equipements"
+          formControlName="equipements"
+          class="form-control"
+          placeholder="Vidéo projecteur, Micro, Tableau blanc..."
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="notes">
+          <i class="fa-solid fa-pen"></i> Notes supplémentaires
+        </label>
+        <textarea
+          id="notes"
+          formControlName="notes"
+          class="form-control"
+          rows="3"
+          placeholder="Informations complémentaires..."
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="goBack()">
+          <i class="fa-solid fa-times"></i> Annuler
+        </button>
+        <button type="submit" class="btn-submit" [disabled]="reservationForm.invalid">
+          <i class="fa-solid fa-save"></i>
+          {{ isEditMode ? 'Modifier' : 'Créer' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

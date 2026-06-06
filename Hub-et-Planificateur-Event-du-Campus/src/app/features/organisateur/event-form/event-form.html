@@ -1,0 +1,259 @@
+<div class="saas-app-container">
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>eCampus</h2>
+    </div>
+    <nav class="menu">
+      <a routerLink="/organisateur/dashboard" routerLinkActive="active" class="menu-item">
+        <span class="icon">📊</span> Tableau de bord
+      </a>
+      <a routerLink="/organisateur/evenements" routerLinkActive="active" class="menu-item">
+        <span class="icon">📅</span> Mes Événements
+      </a>
+      <a routerLink="/organisateur/reservations" routerLinkActive="active" class="menu-item">
+        <span class="icon">📋</span> Mes Réservations
+      </a>
+      <a routerLink="/organisateur/salles" routerLinkActive="active" class="menu-item">
+        <span class="icon">🏢</span> Salles
+      </a>
+      <a routerLink="/profile" routerLinkActive="active" class="menu-item">
+        <span class="icon">👤</span> Profil
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-header">
+      <div class="page-title">
+        <h1>{{ isEditMode ? 'Modifier un événement' : 'Créer un événement' }}</h1>
+        <p class="subtitle">
+          {{ isEditMode ? 'Modifiez les détails de votre événement.' : 'Remplissez les détails pour créer votre événement.' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div *ngIf="errorMessage" class="error-message">
+      <span>⚠️</span> {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="success-message">
+      <span>✅</span> {{ successMessage }}
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement...</p>
+    </div>
+
+    <!-- Formulaire -->
+    <div class="form-card" *ngIf="!isLoading">
+      <form class="saas-form" (ngSubmit)="onSubmit()">
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: INFORMATIONS GÉNÉRALES             -->
+        <!-- ============================================ -->
+        <div class="form-section">
+          <div class="form-section-title">📋 Informations Générales</div>
+
+          <div class="form-grid">
+            <div class="input-group full-width">
+              <label>Titre de l'événement <span class="required">*</span></label>
+              <input type="text"
+                     [(ngModel)]="event.titre"
+                     name="titre"
+                     placeholder="Ex: Hackathon IA 2026"
+                     required>
+            </div>
+
+            <div class="input-group full-width">
+              <label>Description</label>
+              <textarea [(ngModel)]="event.description"
+                        name="description"
+                        rows="4"
+                        placeholder="Décrivez votre événement..."></textarea>
+            </div>
+
+            <div class="input-group">
+              <label>Capacité Max.</label>
+              <input type="number"
+                     [(ngModel)]="event.capaciteMax"
+                     name="capaciteMax"
+                     min="1"
+                     placeholder="Nombre de places">
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: PLANIFICATION & LOGISTIQUE         -->
+        <!-- ============================================ -->
+        <div class="form-section">
+          <div class="form-section-title">📅 Planification & Logistique</div>
+
+          <div class="form-grid">
+            <div class="input-group">
+              <label>Date et heure de début <span class="required">*</span></label>
+              <input type="datetime-local"
+                     [(ngModel)]="event.dateDebut"
+                     name="dateDebut"
+                     required>
+            </div>
+
+            <div class="input-group">
+              <label>Date et heure de fin <span class="required">*</span></label>
+              <input type="datetime-local"
+                     [(ngModel)]="event.dateFin"
+                     name="dateFin"
+                     required>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: CATÉGORIE                          -->
+        <!-- ============================================ -->
+        <div class="form-section">
+          <div class="form-section-title">🏷️ Catégorie</div>
+
+          <div class="form-grid">
+            <div class="input-group full-width">
+              <label>Catégorie <span class="required">*</span></label>
+              <select [(ngModel)]="selectedCategorieId"
+                      name="categorieId"
+                      class="form-control"
+                      (change)="onCategorieChange($event)"
+                      required>
+                <option [value]="0">-- Sélectionnez une catégorie --</option>
+                <option *ngFor="let cat of categories" [value]="cat.id">
+                  {{ cat.icone || cat.icon || '📌' }} {{ cat.nom }}
+                </option>
+                <option [value]="-1">✨ Autre (créer nouvelle catégorie)</option>
+              </select>
+            </div>
+
+            <!-- Champ pour saisir une nouvelle catégorie -->
+            <div class="input-group full-width" *ngIf="showAutreCategorie">
+              <label>Nouvelle catégorie <span class="required">*</span></label>
+              <input type="text"
+                     [(ngModel)]="nouvelleCategorie"
+                     name="nouvelleCategorie"
+                     placeholder="Ex: Atelier, Rencontre, Networking..."
+                     class="form-control">
+              <small class="form-hint">💡 Cette catégorie sera automatiquement créée</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: SALLE -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fa-solid fa-building"></i>
+            🏢 Salle
+          </div>
+
+          <div class="form-grid">
+            <div class="input-group full-width">
+              <label>Salle <span class="required">*</span></label>
+
+              <!-- Cas avec salles disponibles -->
+              <select *ngIf="salles && salles.length > 0"
+                      [(ngModel)]="selectedSalleId"
+                      name="salleId"
+                      class="form-control"
+                      (change)="onSalleChange($event)"
+                      required>
+                <option [value]="0">-- Sélectionnez une salle --</option>
+                <option *ngFor="let salle of salles" [value]="salle.id">
+                  🏢 {{ salle.nom }} (Capacité: {{ salle.capacite }} places) - {{ salle.localisation }}
+                </option>
+              </select>
+
+              <!-- Cas où aucune salle n'est disponible -->
+              <div *ngIf="salles && salles.length === 0" class="alert-warning">
+                <i class="fa-solid fa-info-circle"></i>
+                ⚠️ Aucune salle n'est disponible pour le moment.
+                Veuillez contacter l'administrateur.
+              </div>
+
+              <!-- Cas chargement -->
+              <div *ngIf="!salles" class="alert-info">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Chargement des salles disponibles...
+              </div>
+
+              <small class="form-hint">
+                💡 Seules les salles disponibles sont affichées dans la liste
+              </small>
+            </div>
+          </div>
+        </div>
+        <!-- ============================================ -->
+        <!-- SECTION 5: RESSOURCES                         -->
+        <!-- ============================================ -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fa-solid fa-paperclip"></i>
+            📎 Ressources
+          </div>
+
+          <div class="form-grid">
+            <div class="input-group full-width">
+              <label>Ajouter des ressources</label>
+              <div style="display: flex; gap: 10px;">
+                <input type="text"
+                       [(ngModel)]="nouvelleRessource"
+                       name="nouvelleRessource"
+                       placeholder="Ex: PDF de présentation, Lien Zoom, Document..."
+                       style="flex: 1; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                <button type="button"
+                        (click)="ajouterRessource()"
+                        style="background: linear-gradient(135deg, #4f46e5, #4338ca); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
+                  <i class="fa-solid fa-plus"></i> Ajouter
+                </button>
+              </div>
+              <small style="display: block; margin-top: 8px; font-size: 12px; color: #6b7280;">
+                💡 Ajoutez des liens, documents ou fichiers utiles pour les participants
+              </small>
+            </div>
+
+            <!-- Liste des ressources ajoutées -->
+            <div class="input-group full-width" *ngIf="ressourcesList && ressourcesList.length > 0">
+              <label>Ressources ajoutées :</label>
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+                <div *ngFor="let res of ressourcesList; let i = index"
+                     style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background-color: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+          <span style="font-size: 18px; color: #4f46e5;">
+            <i class="fa-solid fa-file-lines"></i>
+          </span>
+                  <span style="flex: 1; font-size: 14px; color: #1f2937;">{{ res }}</span>
+                  <button type="button"
+                          (click)="supprimerRessource(i)"
+                          style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 16px; padding: 4px 8px; border-radius: 6px;">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ACTIONS DU FORMULAIRE                         -->
+        <!-- ============================================ -->
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="cancel()">
+            <i class="fa-solid fa-times"></i> Annuler
+          </button>
+          <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+            <i class="fa-solid" [class.fa-save]="!isSubmitting" [class.fa-spinner]="isSubmitting"></i>
+            {{ isSubmitting ? 'Enregistrement...' : (isEditMode ? 'Mettre à jour' : 'Créer l\'événement') }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+</div>

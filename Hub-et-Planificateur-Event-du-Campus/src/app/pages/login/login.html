@@ -1,0 +1,77 @@
+<div class="login-container">
+  <div class="login-box">
+
+    <div class="left-side">
+      <div class="tabs">
+        <button class="tab-button active">LOGIN</button>
+        <button class="tab-button" routerLink="/register">SIGN UP</button>
+      </div>
+    </div>
+
+    <div class="right-side">
+      <div class="avatar-wrapper">
+        <div class="user-icon-circle">
+          <i class="fa-solid fa-user-large"></i>
+        </div>
+        <h2 class="main-title">LOGIN</h2>
+      </div>
+
+      <div class="form-container">
+        <!-- Message d'erreur -->
+        <div *ngIf="errorMessage" class="error-message">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <form (ngSubmit)="onLogin()">
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              [(ngModel)]="email"
+              class="input-field"
+              placeholder="Email"
+              required>
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+
+          <div class="form-group">
+            <input
+              type="password"
+              name="password"
+              [(ngModel)]="password"
+              class="input-field"
+              placeholder="Mot de passe"
+              required>
+            <i class="fa-solid fa-lock"></i>
+          </div>
+
+          <div class="links">
+            <a href="#" class="link-text">Mot de passe oublié ?</a>
+          </div>
+
+          <button type="submit" class="submit-btn" [disabled]="isLoading">
+            <span *ngIf="!isLoading">SE CONNECTER</span>
+            <span *ngIf="isLoading">
+              <i class="fa-solid fa-spinner fa-spin"></i> Connexion...
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <div class="social-login">
+        <a routerLink="/register" class="redirect-link">Créer un compte</a>
+        <span class="social-text">Ou se connecter avec</span>
+        <div class="social-icons">
+          <div class="social-icon google" (click)="socialLogin('google')">
+            <i class="fa-brands fa-google"></i>
+          </div>
+          <div class="social-icon facebook" (click)="socialLogin('facebook')">
+            <i class="fa-brands fa-facebook-f"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

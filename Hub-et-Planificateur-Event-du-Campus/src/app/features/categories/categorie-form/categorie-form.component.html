@@ -1,0 +1,85 @@
+<!-- src/app/features/categories/components/categorie-form/categorie-form.component.html -->
+
+<div *ngIf="isOpen" class="fixed inset-0 z-50 overflow-y-auto" (click)="onClose()">
+  <div class="flex items-center justify-center min-h-screen px-4">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75"></div>
+
+    <div class="relative bg-white rounded-lg max-w-md w-full shadow-xl" (click)="$event.stopPropagation()">
+      <div class="bg-blue-600 px-6 py-4 rounded-t-lg">
+        <h3 class="text-lg font-medium text-white">{{ title }}</h3>
+      </div>
+
+      <div class="px-6 py-4 space-y-4">
+        <!-- Nom -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
+          <input #nom type="text"
+                 [value]="formData.nom"
+                 class="w-full px-3 py-2 border rounded-lg">
+          <p *ngIf="submitted && !nom.value" class="text-red-500 text-xs mt-1">
+            Ce champ est obligatoire
+          </p>
+        </div>
+
+        <!-- Type -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+          <select #typeSelect [value]="formData.type" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+            <option *ngFor="let t of types" [value]="t.value">{{ t.label }}</option>
+          </select>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <textarea #desc rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg"></textarea>
+        </div>
+
+        <!-- Couleur -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Couleur</label>
+          <div class="flex gap-2 flex-wrap mb-2">
+            <button *ngFor="let color of couleurs" type="button"
+                    (click)="selectCouleur(color)"
+                    class="w-8 h-8 rounded-full border-2"
+                    [style.backgroundColor]="color"
+                    [style.borderColor]="formData.couleur === color ? '#1F2937' : '#D1D5DB'">
+            </button>
+          </div>
+          <input #couleur type="text" [value]="formData.couleur" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+        </div>
+
+        <!-- Icône -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Icône</label>
+          <div class="flex gap-2 flex-wrap">
+            <button *ngFor="let icon of icones" type="button"
+                    (click)="selectIcone(icon)"
+                    class="text-2xl p-2 rounded-lg hover:bg-gray-100"
+                    [style.backgroundColor]="formData.icone === icon ? '#DBEAFE' : 'transparent'">
+              {{ icon }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Active -->
+        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+          <label class="text-sm font-medium text-gray-700">Catégorie active</label>
+          <input #active type="checkbox" [checked]="formData.active" class="w-4 h-4">
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <div class="bg-gray-50 px-6 py-4 rounded-b-lg flex gap-3">
+        <button type="button" (click)="onClose()" class="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-100">
+          Annuler
+        </button>
+        <button type="button" (click)="save(nom.value, typeSelect.value, desc.value, couleur.value, active.checked)"
+                [disabled]="loading"
+                class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50">
+          {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

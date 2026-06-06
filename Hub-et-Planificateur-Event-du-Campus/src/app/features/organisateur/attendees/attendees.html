@@ -1,0 +1,116 @@
+<div class="saas-app-container">
+
+  <aside class="sidebar admin-sidebar">
+    <div class="brand">
+      <h2>eCampus Organisateur</h2>
+    </div>
+    <nav class="menu">
+      <a routerLink="/organisateur/dashboard" routerLinkActive="active" class="menu-item">
+        <span class="icon">📊</span> Tableau de bord
+      </a>
+      <a routerLink="/organisateur/evenements" routerLinkActive="active" class="menu-item">
+        <span class="icon">📅</span> Mes Événements
+      </a>
+      <a routerLink="/organisateur/evenements/nouveau" routerLinkActive="active" class="menu-item">
+        <span class="icon">➕</span> Nouvel Événement
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-header">
+      <div class="page-title">
+        <h1>Liste des Participants</h1>
+        <p class="subtitle">{{ evenementNom }} (ID: {{ evenementId }})</p>
+      </div>
+      <button class="btn-back" routerLink="/organisateur/evenements">
+        ← Retour à la liste
+      </button>
+    </header>
+
+    <!-- État de chargement -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement des participants...</p>
+    </div>
+
+    <!-- Aucun participant -->
+    <div *ngIf="!isLoading && inscrits.length === 0" class="empty-state">
+      <div class="empty-icon">👥</div>
+      <h3>Aucun participant inscrit</h3>
+      <p>Aucun étudiant ne s'est encore inscrit à cet événement.</p>
+      <button class="btn-create" routerLink="/organisateur/evenements">Voir mes événements</button>
+    </div>
+
+    <!-- Tableau des participants -->
+    <div *ngIf="!isLoading && inscrits.length > 0" class="data-card">
+      <div class="card-header">
+        <div class="stats-badge">
+          <span class="badge">{{ inscrits.length }} participant(s) inscrit(s)</span>
+        </div>
+        <div class="search-box">
+          <input type="text" placeholder="🔍 Rechercher un participant..." id="searchInput">
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="participants-table">
+          <thead>
+          <tr>
+            <th>Étudiant</th>
+            <th>Email / Identifiant</th>
+            <th>Date d'inscription</th>
+            <th>Statut</th>
+            <th>Présence</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let participant of inscrits; let i = index" [class.even-row]="i % 2 === 0">
+            <td class="student-name">
+              <div class="avatar">{{ participant.nom.charAt(0) }}{{ participant.nom.split(' ')[1]?.charAt(0) || '' }}</div>
+              <div class="name-info">
+                <span class="name">{{ participant.nom }}</span>
+                <span class="student-id">ID: {{ participant.etudiantId || 'N/A' }}</span>
+              </div>
+            </td>
+            <td class="student-contact">
+              <span class="email">{{ participant.email }}</span>
+            </td>
+            <td class="inscription-date">
+              <span class="date">{{ participant.dateInscription }}</span>
+            </td>
+            <td class="status-cell">
+                <span class="status-badge" [ngClass]="{
+                  'status-confirmed': participant.statut === 'CONFIRMÉ',
+                  'status-pending': participant.statut === 'EN ATTENTE',
+                  'status-cancelled': participant.statut === 'ANNULÉ',
+                  'status-present': participant.statut === 'PRÉSENT'
+                }">
+                  {{ participant.statut }}
+                </span>
+            </td>
+            <td class="presence-cell">
+              <label class="checkbox-container">
+                <input type="checkbox" [checked]="participant.presence" (change)="togglePresence(participant)">
+                <span class="checkmark"></span>
+                <span class="presence-label">Présent</span>
+              </label>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-footer">
+        <div class="export-buttons">
+          <button class="btn-export" (click)="exportToCSV()">
+            📥 Exporter en CSV
+          </button>
+          <button class="btn-export" (click)="exportToPDF()">
+            📄 Exporter en PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

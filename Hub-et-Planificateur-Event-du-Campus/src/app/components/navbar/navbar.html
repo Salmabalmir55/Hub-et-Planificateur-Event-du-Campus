@@ -1,0 +1,64 @@
+<!-- src/app/components/navbar/navbar.html -->
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a routerLink="/" class="brand-link">
+        🎓 Campus Hub
+      </a>
+    </div>
+
+    <!-- Menu principal -->
+    <div class="nav-menu">
+      <!-- Liens Étudiant -->
+      <ng-container *ngIf="isLoggedIn && (userRole === 'ROLE_ETUDIANT' || userRole === 'ETUDIANT')">
+        <a routerLink="/catalog" routerLinkActive="active" class="nav-link">🎯 Découvrir</a>
+        <a routerLink="/categories" routerLinkActive="active" class="nav-link">📁 Catégories</a>
+        <a routerLink="/my-enrollments" routerLinkActive="active" class="nav-link">🎟️ Mes billets</a>
+
+        <!-- ✅ AJOUT : Lien Salles pour Étudiant -->
+        <a routerLink="/profile" routerLinkActive="active" class="nav-link">👤 Profil</a>
+      </ng-container>
+
+      <!-- Liens Organisateur -->
+      <ng-container *ngIf="isLoggedIn && (userRole === 'ROLE_ORGANISATEUR' || userRole === 'ORGANISATEUR')">
+        <a routerLink="/organisateur/dashboard" routerLinkActive="active" class="nav-link">📊 Dashboard</a>
+        <a routerLink="/organisateur/evenements" routerLinkActive="active" class="nav-link">📅 Mes événements</a>
+        <a routerLink="/organisateur/evenements/creer" routerLinkActive="active" class="nav-link">✨ Créer</a>
+        <a routerLink="/organisateur/categories" routerLinkActive="active" class="nav-link">📁 Catégories</a>
+        <a routerLink="/organisateur/feedbacks" routerLinkActive="active" class="nav-link">📝 Avis reçus</a>
+        <a routerLink="/profile" routerLinkActive="active" class="nav-link">👤 Profil</a>
+      </ng-container>
+
+      <!-- Liens Administrateur -->
+      <ng-container *ngIf="isLoggedIn && (userRole === 'ROLE_ADMIN' || userRole === 'ADMIN')">
+        <a routerLink="/administrateur/validation" routerLinkActive="active" class="nav-link">✅ Validations</a>
+        <a routerLink="/administrateur/users" routerLinkActive="active" class="nav-link">👥 Utilisateurs</a>
+        <a routerLink="/administrateur/categories" routerLinkActive="active" class="nav-link">📁 Catégories</a>
+        <a routerLink="/administrateur/feedbacks" routerLinkActive="active" class="nav-link">📝 Gestion avis</a>
+        <a routerLink="/administrateur/reports" routerLinkActive="active" class="nav-link">📊 Rapports</a>
+        <a routerLink="/profile" routerLinkActive="active" class="nav-link">👤 Profil</a>
+        <a *ngIf="userRole === 'ROLE_ADMIN' || userRole === 'ADMIN'"
+           routerLink="/administrateur/salles"
+           routerLinkActive="active"
+           class="nav-link">
+          🏢 Salles
+        </a>
+      </ng-container>
+    </div>
+
+    <!-- Actions droite -->
+    <div class="nav-actions">
+      <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
+        <a routerLink="/login" class="btn-login">🔑 Connexion</a>
+      </ng-container>
+      <ng-template #loggedInTemplate>
+        <div class="user-info">
+          <span class="user-avatar">{{ userInitials }}</span>
+          <span class="user-name">{{ userName }}</span>
+          <button (click)="logout()" class="btn-logout">🚪 Déconnexion</button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</nav>

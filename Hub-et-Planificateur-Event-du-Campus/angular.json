@@ -1,0 +1,59 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm",
+    "analytics": "aa30b49e-c371-4f4d-8f16-a2ecf2427037"
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "Hub-et-Planificateur-Event-du-Campus": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/Hub-et-Planificateur-Event-du-Campus",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [{ "glob": "**/*", "input": "public" }],
+            "styles": [
+              "src/styles.css",
+              "src/app/features/organisateur/event-list/event-list.css",
+              "src/app/features/organisateur/attendees/attendees.css",
+              "src/app/features/organisateur/event-form/event-form.css",
+              "src/app/features/administrateur/users/users.css",
+              "src/app/features/administrateur/validation/validation.css",
+              "src/app/features/administrateur/reports/reports.css"
+            ]
+          },
+          "configurations": {
+            "production": { "outputHashing": "all" },
+            "development": { "optimization": false, "sourceMap": true }
+          }
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "Hub-et-Planificateur-Event-du-Campus:build:production"
+            },
+            "development": {
+              "buildTarget": "Hub-et-Planificateur-Event-du-Campus:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  }
+}

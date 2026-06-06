@@ -1,0 +1,76 @@
+<!-- src/app/features/etudiant/feedback/feedback-form.html -->
+
+<div class="feedback-container">
+  <div class="feedback-card">
+    <h2>📝 Donner mon avis</h2>
+
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="error-message">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <!-- Message de succès -->
+    <div *ngIf="successMessage" class="success-message">
+      <i class="fa-solid fa-circle-check"></i>
+      <span>{{ successMessage }}</span>
+    </div>
+
+    <!-- Formulaire principal -->
+    <div *ngIf="!successMessage">
+
+      <!-- Information événement -->
+      <div class="event-info">
+        <p>📅 Événement : <strong>{{ evenementTitre }}</strong></p>
+      </div>
+
+      <!-- Formulaire -->
+      <form (ngSubmit)="onSubmit()" *ngIf="canSubmit && !successMessage">
+
+        <!-- Note avec étoiles -->
+        <div class="form-group">
+          <label>⭐ Note <span class="required">*</span></label>
+          <div class="stars-input">
+            <i *ngFor="let s of stars"
+               class="fa-star"
+               [class.fa-solid]="s <= (hoverRating || note)"
+               [class.fa-regular]="s > (hoverRating || note)"
+               (mouseenter)="hoverRating = s"
+               (mouseleave)="hoverRating = 0"
+               (click)="setNote(s)">
+            </i>
+            <span class="rating-value" *ngIf="note > 0">{{ note }}/5</span>
+          </div>
+        </div>
+
+        <!-- Commentaire -->
+        <div class="form-group">
+          <label>💬 Votre commentaire</label>
+          <textarea [(ngModel)]="commentaire"
+                    name="commentaire"
+                    rows="4"
+                    placeholder="Partagez votre expérience..."></textarea>
+          <div class="char-counter">{{ commentaire.length }}/500</div>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="cancel()">
+            ❌ Annuler
+          </button>
+          <button type="submit" class="btn-submit" [disabled]="isLoading">
+            {{ isLoading ? '⏳ Envoi...' : '📨 Envoyer mon avis' }}
+          </button>
+        </div>
+      </form>
+
+      <!-- Message si non autorisé -->
+      <div *ngIf="!canSubmit && !errorMessage && !successMessage" class="info-message">
+        <i class="fa-regular fa-clock"></i>
+        <p>Vous ne pouvez pas encore laisser d'avis pour cet événement.</p>
+        <button class="btn-cancel" (click)="cancel()">Retour</button>
+      </div>
+
+    </div>
+  </div>
+</div>

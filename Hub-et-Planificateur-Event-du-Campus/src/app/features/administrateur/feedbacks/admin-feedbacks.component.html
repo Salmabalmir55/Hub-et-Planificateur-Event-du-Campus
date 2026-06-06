@@ -1,0 +1,126 @@
+<!-- src/app/features/administrateur/feedbacks/admin-feedbacks.component.html -->
+
+<div class="admin-feedbacks-container">
+  <div class="page-header">
+    <h1>📝 Gestion des Avis</h1>
+    <p class="subtitle">Modérez les avis des étudiants sur les événements</p>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="successMessage" class="success-message">
+    ✅ {{ successMessage }}
+  </div>
+  <div *ngIf="error" class="error-message">
+    ⚠️ {{ error }}
+  </div>
+
+  <!-- Statistiques -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{ getStatistiques().total }}</div>
+      <div class="stat-label">Total avis</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getStatistiques().approuves }}</div>
+      <div class="stat-label">Approuvés</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getStatistiques().nonApprouves }}</div>
+      <div class="stat-label">En attente</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getNoteMoyenne() }}</div>
+      <div class="stat-label">Note moyenne</div>
+    </div>
+  </div>
+
+  <!-- Distribution des notes -->
+  <div class="rating-distribution">
+    <h3>Distribution des notes</h3>
+    <div class="rating-bars">
+      <div *ngFor="let note of [5,4,3,2,1]" class="rating-bar-item">
+        <span class="rating-label">{{ note }} ⭐</span>
+        <div class="rating-bar-bg">
+          <div class="rating-bar-fill"
+               [style.width.%]="(getStatistiques().parNote[note] / getStatistiques().total) * 100">
+          </div>
+        </div>
+        <span class="rating-count">{{ getStatistiques().parNote[note] }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filters-card">
+    <div class="filters-row">
+      <div class="search-box">
+        <input type="text"
+               [(ngModel)]="searchTerm"
+               (input)="onSearch()"
+               placeholder="🔍 Rechercher par événement, étudiant ou commentaire..."
+               class="search-input">
+      </div>
+      <div class="filter-buttons">
+        <button (click)="onFilterNote(5)" [class.active]="filterNote === 5" class="filter-btn">⭐ 5</button>
+        <button (click)="onFilterNote(4)" [class.active]="filterNote === 4" class="filter-btn">⭐ 4</button>
+        <button (click)="onFilterNote(3)" [class.active]="filterNote === 3" class="filter-btn">⭐ 3</button>
+        <button (click)="onFilterNote(2)" [class.active]="filterNote === 2" class="filter-btn">⭐ 2</button>
+        <button (click)="onFilterNote(1)" [class.active]="filterNote === 1" class="filter-btn">⭐ 1</button>
+      </div>
+      <div class="status-filters">
+        <button (click)="onFilterApprouve('all')" [class.active]="filterApprouve === 'all'" class="status-btn">Tous</button>
+        <button (click)="onFilterApprouve('approuve')" [class.active]="filterApprouve === 'approuve'" class="status-btn">✅ Approuvés</button>
+        <button (click)="onFilterApprouve('non_approuve')" [class.active]="filterApprouve === 'non_approuve'" class="status-btn">⏳ En attente</button>
+      </div>
+      <button (click)="resetFilters()" class="reset-btn">Réinitialiser</button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des avis...</p>
+  </div>
+
+  <!-- Liste des feedbacks -->
+  <div *ngIf="!loading && filteredFeedbacks.length === 0" class="empty-state">
+    <div class="empty-icon">📭</div>
+    <h3>Aucun avis</h3>
+    <p>Aucun avis ne correspond à vos critères.</p>
+  </div>
+
+  <div class="feedbacks-list" *ngIf="!loading && filteredFeedbacks.length > 0">
+    <div class="feedback-card" *ngFor="let fb of filteredFeedbacks">
+      <div class="feedback-header">
+        <div class="feedback-user">
+          <!-- ✅ CORRECTION : Suppression des ?. inutiles -->
+          <div class="user-avatar">{{ ((fb.utilisateurPrenom || fb.utilisateurNom || 'U') | slice:0:1) | uppercase }}</div>
+          <div>
+            <div class="user-name">{{ fb.utilisateurPrenom }} {{ fb.utilisateurNom }}</div>
+            <div class="event-name">{{ fb.evenementTitre }}</div>
+          </div>
+        </div>
+        <div class="feedback-meta">
+          <div class="feedback-stars">
+            <span *ngFor="let s of [1,2,3,4,5]" class="star" [class.filled]="s <= fb.note">★</span>
+          </div>
+          <div class="feedback-date">{{ fb.dateCreation | date:'dd/MM/yyyy à HH:mm' }}</div>
+        </div>
+      </div>
+      <div class="feedback-comment">
+        "{{ fb.commentaire || 'Aucun commentaire' }}"
+      </div>
+      <div class="feedback-actions">
+        <span class="status-badge" [class.approuve]="fb.approuve" [class.pending]="!fb.approuve">
+          {{ fb.approuve ? '✅ Approuvé' : '⏳ En attente' }}
+        </span>
+        <button *ngIf="!fb.approuve" class="btn-approve" (click)="approuverFeedback(fb.id)">
+          ✓ Approuver
+        </button>
+        <button class="btn-delete" (click)="deleteFeedback(fb.id)">
+          🗑️ Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

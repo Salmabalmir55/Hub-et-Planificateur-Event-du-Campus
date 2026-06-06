@@ -1,0 +1,76 @@
+<div class="saas-app-container">
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>eCampus</h2>
+    </div>
+    <nav class="menu">
+      <a routerLink="/organisateur/dashboard" routerLinkActive="active" class="menu-item">
+        <span class="icon">📊</span> Tableau de bord
+      </a>
+      <a routerLink="/organisateur/evenements" routerLinkActive="active" class="menu-item">
+        <span class="icon">📅</span> Mes Événements
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-header">
+      <div class="page-title">
+        <!-- Titre "Événements" supprimé -->
+        <h1></h1>
+        <p class="subtitle">{{ filteredEvents.length }} événement(s)</p>
+      </div>
+      <div class="user-profile">
+        <button class="btn-create" routerLink="/organisateur/evenements/creer">+ Nouvel Événement</button>
+      </div>
+    </header>
+
+    <!-- Onglets de filtrage supprimés -->
+
+    <div class="data-list">
+      <div class="list-header">
+        <div class="col-id">ID</div>
+        <div class="col-name">Nom</div>
+        <div class="col-place">Lieu</div>
+        <div class="col-date">Date</div>
+        <div class="col-cap">Cap.</div>
+        <div class="col-status">Statut</div>
+        <div class="col-action">Actions</div>
+      </div>
+
+      <div *ngIf="isLoading" style="padding: 2rem; text-align: center;">
+        <div class="spinner"></div>
+        <p>Chargement de vos événements...</p>
+      </div>
+
+      <div *ngIf="!isLoading && filteredEvents.length === 0" style="padding: 2rem; text-align: center;">
+        Aucun événement
+      </div>
+
+      <div class="list-row" *ngFor="let event of filteredEvents">
+        <div class="col-id text-gray">#{{ event.id }}</div>
+        <div class="col-name font-medium">{{ event.titre }}</div>
+        <div class="col-place text-gray">{{ event.lieu || '-' }}</div>
+        <div class="col-date text-gray">{{ formatDate(event.dateDebut) }}</div>
+        <div class="col-cap text-gray">{{ event.capaciteMax || '-' }}</div>
+        <div class="col-status">
+          <span class="dot" [class.dot-pending]="event.statut === 'EN_ATTENTE'"
+                [class.dot-success]="event.statut === 'VALIDE'"
+                [class.dot-ended]="event.statut === 'TERMINE'"></span>
+          {{ statutLabel(event.statut) }}
+        </div>
+        <div class="col-action">
+          <button class="icon-btn edit" (click)="editEvent(event.id)" title="Modifier">
+            ✏️ Modifier
+          </button>
+          <button class="icon-btn attendees" (click)="viewAttendees(event.id)" title="Participants">
+            👥 Inscrits
+          </button>
+          <button class="icon-btn delete" (click)="deleteEvent(event.id)" title="Supprimer">
+            🗑️ Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

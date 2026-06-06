@@ -1,0 +1,48 @@
+<!-- src/app/features/etudiant/categories/categorie-etudiant.component.html -->
+
+<div class="main-content">
+  <div class="top-header">
+    <div class="page-title">
+      <h1>📁 Catégories d'événements</h1>
+      <p class="subtitle">Explorez les événements par catégorie</p>
+    </div>
+  </div>
+
+  <!-- Barre de recherche -->
+  <div class="search-bar">
+    <input type="text"
+           [(ngModel)]="searchTerm"
+           (input)="onSearch()"
+           placeholder="🔍 Rechercher une catégorie..."
+           class="search-input">
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des catégories...</p>
+  </div>
+
+  <!-- Erreur -->
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Grille des catégories -->
+  <div class="categories-grid" *ngIf="!loading && filteredCategories.length > 0">
+    <div *ngFor="let cat of filteredCategories" class="category-card"
+         [routerLink]="['/categorie', cat.id, 'evenements']">
+      <div class="card-icon">{{ cat.icone || '📁' }}</div>
+      <h3>{{ cat.nom }}</h3>
+      <p class="description">{{ cat.description || 'Aucune description' }}</p>
+      <div class="card-footer">
+        <span class="event-count">📅 {{ getNombreEvenements(cat) }} événements</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && filteredCategories.length === 0" class="empty-state">
+    <div class="empty-icon">📂</div>
+    <h3>Aucune catégorie</h3>
+    <p>Aucune catégorie disponible pour le moment.</p>
+  </div>
+</div>

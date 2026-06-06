@@ -1,0 +1,166 @@
+{
+  "info": {
+    "name": "Hub Planificateur Événements Campus API",
+    "description": "Collection d'endpoints pour tester l'API",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": {
+      "token": ""
+    }
+  },
+  "endpoints": [
+    {
+      "name": "PUBLIC - Login",
+      "method": "POST",
+      "url": "http://localhost:8080/api/auth/login",
+      "body": {
+        "email": "etudiant@campus.fr",
+        "motDePasse": "password123"
+      },
+      "notes": "Sans authentification. Retourne JWT token."
+    },
+    {
+      "name": "PUBLIC - Register Étudiant",
+      "method": "POST",
+      "url": "http://localhost:8080/api/auth/register/etudiant",
+      "body": {
+        "nom": "Dupont",
+        "prenom": "Jean",
+        "email": "jean.dupont@campus.fr",
+        "motDePasse": "password123",
+        "matricule": "MAT001",
+        "filiere": "Informatique",
+        "niveau": "L2",
+        "telephone": "+212612345678"
+      },
+      "notes": "Sans authentification"
+    },
+    {
+      "name": "PUBLIC - Register Organisateur",
+      "method": "POST",
+      "url": "http://localhost:8080/api/auth/register/organisateur",
+      "body": {
+        "nom": "Martin",
+        "prenom": "Claire",
+        "email": "claire.martin@campus.fr",
+        "motDePasse": "password123",
+        "telephone": "+212612345678"
+      },
+      "notes": "Sans authentification"
+    },
+    {
+      "name": "PUBLIC - Swagger UI",
+      "method": "GET",
+      "url": "http://localhost:8080/swagger-ui.html",
+      "notes": "Documentation API interactive"
+    },
+    {
+      "name": "SECURE - Récupérer toutes les catégories",
+      "method": "GET",
+      "url": "http://localhost:8080/api/categories",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}"
+      },
+      "notes": "Nécessite JWT du header Authorization"
+    },
+    {
+      "name": "SECURE - Récupérer toutes les salles",
+      "method": "GET",
+      "url": "http://localhost:8080/api/salles",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}"
+      },
+      "notes": "Nécessite JWT"
+    },
+    {
+      "name": "SECURE - Récupérer tous les événements",
+      "method": "GET",
+      "url": "http://localhost:8080/api/evenements",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}"
+      },
+      "notes": "Nécessite JWT"
+    },
+    {
+      "name": "SECURE - Récupérer événement par ID",
+      "method": "GET",
+      "url": "http://localhost:8080/api/evenements/1",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}"
+      },
+      "notes": "Nécessite JWT"
+    },
+    {
+      "name": "SECURE - Créer un événement",
+      "method": "POST",
+      "url": "http://localhost:8080/api/evenements",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "titre": "Conférence Python",
+        "description": "Conférence sur les dernières tendances Python",
+        "dateDebut": "2026-06-15T10:00:00",
+        "dateFin": "2026-06-15T12:00:00",
+        "lieu": "Amphithéâtre A",
+        "capacite": 100,
+        "categorieId": 1,
+        "salleId": 1
+      },
+      "notes": "Nécessite ROLE_ORGANISATEUR ou ROLE_ADMIN"
+    },
+    {
+      "name": "SECURE - Lister les inscriptions de l'étudiant",
+      "method": "GET",
+      "url": "http://localhost:8080/api/inscriptions/etudiant/1",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}"
+      },
+      "notes": "Nécessite JWT"
+    },
+    {
+      "name": "SECURE - S'inscrire à un événement",
+      "method": "POST",
+      "url": "http://localhost:8080/api/inscriptions?etudiantId=1&evenementId=1",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}",
+        "Content-Type": "application/json"
+      },
+      "notes": "Nécessite JWT"
+    },
+    {
+      "name": "SECURE - Récupérer mon profil",
+      "method": "GET",
+      "url": "http://localhost:8080/api/utilisateurs/1",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}"
+      },
+      "notes": "Nécessite JWT"
+    },
+    {
+      "name": "SECURE - Mettre à jour mon profil",
+      "method": "PUT",
+      "url": "http://localhost:8080/api/utilisateurs/1",
+      "headers": {
+        "Authorization": "Bearer {TOKEN}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "nom": "Nouveau Nom",
+        "prenom": "Nouveau Prenom",
+        "telephone": "+212612345678"
+      },
+      "notes": "Nécessite JWT"
+    }
+  ],
+  "testFlow": {
+    "step1": "Appeler Login endpoint avec credentials valides",
+    "step2": "Copier le token de la réponse",
+    "step3": "Ajouter Authorization: Bearer {token} aux headers",
+    "step4": "Appeler les endpoints sécurisés",
+    "notes": "Le frontend fait cela automatiquement avec le JWT interceptor"
+  }
+}

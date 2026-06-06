@@ -1,0 +1,185 @@
+<!-- src/app/features/categories/categorie-list/categorie-list.component.html -->
+
+<div class="main-content">
+  <div class="top-header">
+    <div class="page-title">
+      <h1>Gestion des Catégories</h1>
+      <p class="subtitle">Gérez les catégories d'événements de votre campus</p>
+    </div>
+    <!-- ✅ Bouton visible UNIQUEMENT pour ADMIN -->
+    <button *ngIf="isAdmin" class="btn-create" (click)="openCreateModal()">
+      + Nouvelle Catégorie
+    </button>
+  </div>
+
+  <!-- Messages de feedback -->
+  <div *ngIf="successMessage" class="success-message">
+    ✅ {{ successMessage }}
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    ⚠️ {{ error }}
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card total">
+      <div class="stat-value">{{ getStats().total }}</div>
+      <div class="stat-label">Total catégories</div>
+    </div>
+    <div class="stat-card active">
+      <div class="stat-value">{{ getStats().active }}</div>
+      <div class="stat-label">Catégories actives</div>
+    </div>
+    <div class="stat-card inactive">
+      <div class="stat-value">{{ getStats().inactive }}</div>
+      <div class="stat-label">Catégories inactives</div>
+    </div>
+    <div class="stat-card events">
+      <div class="stat-value">{{ getStats().totalEvents }}</div>
+      <div class="stat-label">Total événements</div>
+    </div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filters-card">
+    <div class="filters-container">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text"
+               class="search-input"
+               [value]="searchTerm"
+               (input)="searchTerm = $any($event.target).value; onSearch()"
+               placeholder="Rechercher une catégorie...">
+      </div>
+      <div class="filter-buttons">
+        <button (click)="onFilterChange('all')"
+                [class.active]="filterType === 'all'"
+                class="btn-filter btn-filter-all">Toutes</button>
+        <button (click)="onFilterChange('active')"
+                [class.active]="filterType === 'active'"
+                class="btn-filter btn-filter-active">Actives</button>
+        <button (click)="onFilterChange('inactive')"
+                [class.active]="filterType === 'inactive'"
+                class="btn-filter btn-filter-inactive">Inactives</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des catégories...</p>
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="!loading && filteredCategories.length === 0" class="empty-state">
+    <div class="empty-icon">📂</div>
+    <h3>Aucune catégorie</h3>
+    <p>Créez votre première catégorie pour commencer</p>
+    <!-- ✅ Bouton visible UNIQUEMENT pour ADMIN -->
+    <button *ngIf="isAdmin" class="btn-create" (click)="openCreateModal()">Créer une catégorie</button>
+  </div>
+
+  <!-- Categories Grid -->
+  <div class="categories-grid">
+    <div *ngFor="let cat of filteredCategories" class="category-card">
+      <div class="card-header" [style.backgroundColor]="cat.couleur || 'var(--primary)'"></div>
+      <div class="card-content">
+        <div class="card-header-info">
+          <div class="category-icon">{{ cat.icone || '📁' }}</div>
+          <span class="status-badge" [class.status-confirmed]="cat.active" [class.status-cancelled]="!cat.active">
+            {{ cat.active ? 'Actif' : 'Inactif' }}
+          </span>
+        </div>
+        <h3 class="category-name">{{ cat.nom }}</h3>
+        <p class="category-description">{{ cat.description || 'Aucune description' }}</p>
+        <div class="category-stats">
+          <div class="stat-item">
+            <span class="stat-label">📊 Événements</span>
+            <span class="stat-value">{{ cat.nombreEvenements || 0 }}</span>
+          </div>
+        </div>
+
+        <!-- ✅ Actions: visibles seulement pour ADMIN -->
+        <div *ngIf="isAdmin" class="card-actions">
+          <button class="btn-card btn-view" (click)="voirEvenements(cat)" title="Voir les événements">
+            📋 Voir événements
+          </button>
+          <button class="btn-card btn-edit" (click)="openEditModal(cat)" title="Modifier">
+            ✏️ Modifier
+          </button>
+          <button class="btn-card btn-toggle" (click)="handleToggleActive(cat)"
+                  [title]="cat.active ? 'Désactiver' : 'Activer'">
+            {{ cat.active ? '🔒' : '🔓' }}
+          </button>
+          <button class="btn-card btn-delete" (click)="handleDelete(cat)"
+                  [disabled]="cat.nombreEvenements && cat.nombreEvenements > 0"
+                  [title]="cat.nombreEvenements && cat.nombreEvenements > 0 ? 'Ne peut pas être supprimée' : 'Supprimer'">
+            🗑️
+          </button>
+        </div>
+
+        <!-- ✅ Pour les non-admin: seulement voir les événements -->
+        <div *ngIf="!isAdmin" class="card-actions">
+          <button class="btn-card btn-view" (click)="voirEvenements(cat)" title="Voir les événements">
+            📋 Voir les événements
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="getTotalPages() > 1" class="pagination">
+    <button class="btn-page" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 0">← Précédent</button>
+    <span class="page-info">Page {{ currentPage + 1 }} / {{ getTotalPages() }}</span>
+    <button class="btn-page" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage + 1 >= getTotalPages()">Suivant →</button>
+  </div>
+</div>
+
+<!-- Modal: visible UNIQUEMENT pour ADMIN -->
+<div *ngIf="isModalOpen && isAdmin" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ editingCategorie ? 'Modifier' : 'Nouvelle' }} catégorie</h3>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="input-group">
+          <label>Nom <span class="required">*</span></label>
+          <input #nomInput type="text" [value]="editingCategorie?.nom || ''" placeholder="Nom de la catégorie">
+        </div>
+        <div class="input-group">
+          <label>Type</label>
+          <select #typeSelect [value]="editingCategorie?.type || ''">
+            <option value="">Non défini</option>
+            <option value="PROFESSIONNEL">Professionnel</option>
+            <option value="LOISIR">Loisir</option>
+            <option value="CULTUREL">Culturel</option>
+            <option value="EDUCATIF">Éducatif</option>
+            <option value="SPORT">Sport</option>
+          </select>
+        </div>
+        <div class="input-group full-width">
+          <label>Description</label>
+          <textarea #descInput rows="3" [value]="editingCategorie?.description || ''" placeholder="Description..."></textarea>
+        </div>
+        <div class="input-group">
+          <label>Couleur</label>
+          <input #colorInput type="color" [value]="editingCategorie?.couleur || '#4f46e5'">
+        </div>
+        <div class="input-group">
+          <label>Icône</label>
+          <input #iconInput type="text" [value]="editingCategorie?.icone || '📁'" placeholder="Icône (émoji)">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" (click)="saveCategorie(nomInput.value, descInput.value, colorInput.value, iconInput.value)">
+        Enregistrer
+      </button>
+      <button class="btn-secondary" (click)="closeModal()">Annuler</button>
+    </div>
+  </div>
+</div>

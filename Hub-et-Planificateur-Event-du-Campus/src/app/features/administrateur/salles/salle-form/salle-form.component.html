@@ -1,0 +1,56 @@
+<div class="salle-form-container">
+  <button class="btn-back" (click)="goBack()">
+    <i class="fa-solid fa-arrow-left"></i> Retour
+  </button>
+
+  <div class="form-card">
+    <h1>
+      <i class="fa-solid" [class.fa-plus]="!isEditMode" [class.fa-edit]="isEditMode"></i>
+      {{ isEditMode ? 'Modifier la salle' : 'Nouvelle salle' }}
+    </h1>
+
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement...</p>
+    </div>
+
+    <form [formGroup]="salleForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Nom de la salle *</label>
+        <input type="text" formControlName="nom" class="form-control" placeholder="Ex: Amphithéâtre A">
+        <div class="error" *ngIf="salleForm.get('nom')?.invalid && salleForm.get('nom')?.touched">
+          Le nom est requis
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Capacité *</label>
+          <input type="number" formControlName="capacite" class="form-control" placeholder="Nombre de places">
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <input type="text" formControlName="type" class="form-control" placeholder="Amphithéâtre, Laboratoire...">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Localisation *</label>
+        <input type="text" formControlName="localisation" class="form-control" placeholder="Bâtiment, étage...">
+      </div>
+
+      <div class="form-group">
+        <label>Équipements</label>
+        <textarea formControlName="equipements" class="form-control" rows="3" placeholder="Séparez par des virgules"></textarea>
+      </div>
+
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="goBack()">Annuler</button>
+        <button type="submit" class="btn-submit" [disabled]="salleForm.invalid">
+          <i class="fa-solid fa-save"></i> {{ isEditMode ? 'Modifier' : 'Créer' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

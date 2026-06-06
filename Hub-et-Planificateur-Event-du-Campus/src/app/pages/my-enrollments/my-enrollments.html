@@ -1,0 +1,139 @@
+<div class="enrollments-container">
+  <div class="enrollments-header">
+    <h1 class="page-title">Mes Inscriptions</h1>
+    <p class="page-subtitle">Suivez et gérez votre participation aux différents événements de l'ENSET.</p>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filter-tabs" *ngIf="!isLoading && inscriptions.length > 0">
+    <button class="filter-tab" [class.active]="activeFilter === 'all'" (click)="setFilter('all')">
+      Tous ({{ inscriptions.length }})
+    </button>
+    <button class="filter-tab" [class.active]="activeFilter === 'upcoming'" (click)="setFilter('upcoming')">
+      À venir ({{ upcomingCount }})
+    </button>
+    <button class="filter-tab" [class.active]="activeFilter === 'past'" (click)="setFilter('past')">
+      Passés ({{ pastCount }})
+    </button>
+  </div>
+
+  <!-- État de chargement -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement de vos inscriptions...</p>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Tableau des inscriptions -->
+  <div class="table-responsive" *ngIf="!isLoading && filteredInscriptions.length > 0">
+    <table class="enrollments-table">
+      <thead>
+      <tr>
+        <th>Événement</th>
+        <th>Date</th>
+        <th>Lieu</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ins of filteredInscriptions">
+        <td class="event-name-cell">
+          <strong>{{ ins.eventTitle }}</strong>
+        </td>
+        <td>
+          <i class="fa-regular fa-calendar-days table-icon"></i> {{ ins.date }}
+        </td>
+        <td>
+          <i class="fa-solid fa-location-dot table-icon"></i> {{ ins.location }}
+        </td>
+        <td>
+          <span class="status-badge" [ngClass]="{
+            'badge-confirmed': ins.statutInscription === 'CONFIRMEE',
+            'badge-pending': ins.statutInscription === 'EN_ATTENTE',
+            'badge-present': ins.statutInscription === 'PRESENTE'
+          }">
+            {{ getStatutLabel(ins.statutInscription) }}
+          </span>
+        </td>
+        <td class="actions-cell">
+          <div class="actions-wrapper">
+            <!-- Bouton Annuler -->
+            <button
+              class="cancel-btn"
+              (click)="annulerInscription(ins.id)"
+              [disabled]="!canCancel(ins.statutInscription, ins.isPast)">
+              <i class="fa-solid fa-xmark"></i> Annuler
+            </button>
+
+            <!-- Bouton Laisser un avis (redirection vers page dédiée) -->
+            <button
+              class="feedback-btn"
+              *ngIf="ins.canGiveFeedback"
+              [routerLink]="['/feedback', ins.evenementId]">
+              <i class="fa-regular fa-comment-dots"></i> Donner mon avis
+            </button>
+
+            <!-- Indicateur "Avis donné" -->
+            <span *ngIf="ins.feedbackGiven" class="feedback-given">
+              <i class="fa-solid fa-check-circle"></i> Avis donné
+            </span>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Aucune inscription -->
+  <div class="no-enrollments" *ngIf="!isLoading && filteredInscriptions.length === 0 && !errorMessage">
+    <i class="fa-regular fa-folder-open"></i>
+    <p *ngIf="activeFilter === 'all'">Vous n'êtes inscrit à aucun événement pour le moment.</p>
+    <p *ngIf="activeFilter === 'upcoming'">Aucun événement à venir.</p>
+    <p *ngIf="activeFilter === 'past'">Aucun événement passé.</p>
+    <a routerLink="/catalog" class="browse-link">Parcourir les événements</a>
+  </div>
+
+  <!-- Section des avis donnés -->
+  <div class="feedbacks-section" *ngIf="mesFeedbacks.length > 0">
+    <h3>
+      <i class="fa-regular fa-star"></i>
+      Mes avis ({{ mesFeedbacks.length }})
+    </h3>
+
+    <div class="feedback-stats" *ngIf="getAverageRating() > 0">
+      <span class="average-rating">
+        Note moyenne : {{ getAverageRating() }}/5
+        <span class="stars">
+          <i class="fa-solid fa-star" *ngFor="let s of [1,2,3,4,5]" [class.active]="s <= getAverageRating()"></i>
+        </span>
+      </span>
+    </div>
+
+    <div class="feedbacks-list">
+      <div class="feedback-item" *ngFor="let fb of mesFeedbacks">
+        <div class="feedback-header">
+          <strong class="feedback-event">{{ fb.event }}</strong>
+          <span class="feedback-date">{{ fb.date | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="feedback-rating">
+          <span class="rating-stars">
+            <i class="fa-solid fa-star" *ngFor="let star of [1,2,3,4,5]" [class.active]="star <= fb.rating"></i>
+          </span>
+          <span class="rating-value">{{ fb.rating }}/5</span>
+        </div>
+        <p class="feedback-comment" *ngIf="fb.comment">
+          "{{ fb.comment }}"
+        </p>
+        <p class="feedback-comment empty" *ngIf="!fb.comment">
+          <em>Aucun commentaire</em>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

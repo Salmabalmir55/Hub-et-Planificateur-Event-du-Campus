@@ -1,0 +1,82 @@
+<div class="reservation-detail-container">
+  <button class="btn-back" (click)="goBack()">
+    <i class="fa-solid fa-arrow-left"></i> Retour aux réservations
+  </button>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des détails...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    {{ error }}
+  </div>
+
+  <div *ngIf="reservation && !loading" class="detail-card">
+    <div class="card-header" [class.confirmee]="reservation.statut === 'confirmee'"
+         [class.attente]="reservation.statut === 'en_attente'"
+         [class.annulee]="reservation.statut === 'annulee'">
+      <h1>{{ reservation.titre }}</h1>
+      <span class="statut-badge">
+        {{ reservation.statut === 'confirmee' ? 'Confirmée' :
+        reservation.statut === 'en_attente' ? 'En attente' : 'Annulée' }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <div class="info-section">
+        <h3><i class="fa-solid fa-info-circle"></i> Informations générales</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Salle</label>
+            <p>{{ reservation.salleNom }}</p>
+          </div>
+          <div class="info-item">
+            <label>Organisateur</label>
+            <p>{{ reservation.organisateur }}</p>
+          </div>
+          <div class="info-item">
+            <label>Date</label>
+            <p>{{ formatDate(reservation.dateDebut) }}</p>
+          </div>
+          <div class="info-item">
+            <label>Horaire</label>
+            <p>{{ formatTime(reservation.dateDebut) }} - {{ formatTime(reservation.dateFin) }}</p>
+          </div>
+          <div class="info-item">
+            <label>Participants</label>
+            <p>{{ reservation.nombreParticipants }} personnes</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="description-section" *ngIf="reservation.description">
+        <h3><i class="fa-solid fa-align-left"></i> Description</h3>
+        <p>{{ reservation.description }}</p>
+      </div>
+
+      <div class="equipements-section" *ngIf="reservation.equipements && reservation.equipements.length">        <h3><i class="fa-solid fa-screwdriver-wrench"></i> Équipements</h3>
+        <div class="equipements-list">
+          <span *ngFor="let equip of reservation.equipements" class="equipement-tag">
+            <i class="fa-solid fa-wrench"></i> {{ equip }}
+          </span>
+        </div>
+      </div>
+
+      <div class="notes-section" *ngIf="reservation.notes">
+        <h3><i class="fa-solid fa-pen"></i> Notes</h3>
+        <p>{{ reservation.notes }}</p>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <button *ngIf="reservation.statut !== 'annulee'" class="btn-modifier" (click)="modifierReservation()">
+        <i class="fa-solid fa-edit"></i> Modifier
+      </button>
+      <button *ngIf="reservation.statut !== 'annulee'" class="btn-annuler" (click)="annulerReservation()">
+        <i class="fa-solid fa-ban"></i> Annuler
+      </button>
+    </div>
+  </div>
+</div>

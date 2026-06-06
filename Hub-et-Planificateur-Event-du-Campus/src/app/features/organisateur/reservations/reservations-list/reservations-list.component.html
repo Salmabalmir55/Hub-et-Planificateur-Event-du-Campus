@@ -1,0 +1,100 @@
+<div class="reservations-container">
+  <div class="header">
+    <h1>
+      <i class="fa-solid fa-calendar-alt"></i>
+      Gestion des Réservations
+    </h1>
+    <button class="btn-nouveau" (click)="navigateToNewReservation()">
+      <i class="fa-solid fa-plus"></i>
+      Nouvelle Réservation
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des réservations...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="error-message">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    {{ error }}
+    <button class="btn-retry" (click)="loadReservations()">Réessayer</button>
+  </div>
+
+  <!-- Filters -->
+  <div *ngIf="!loading && !error" class="filters-section">
+    <div class="search-box">
+      <i class="fa-solid fa-search"></i>
+      <input
+        type="text"
+        [value]="searchTerm"
+        (input)="onSearchChange($event)"
+        placeholder="Rechercher..."
+        class="search-input"
+      >
+    </div>
+    <div class="filter-buttons">
+      <button
+        *ngFor="let statut of statuts"
+        class="filter-btn"
+        [class.active]="filterStatut === statut.value"
+        (click)="filterStatut = statut.value; applyFilters()"
+      >
+        <i [class]="'fa-solid ' + statut.icon"></i>
+        {{ statut.label }}
+      </button>
+      <button class="filter-btn reset" (click)="resetFilters()">
+        <i class="fa-solid fa-undo"></i> Réinitialiser
+      </button>
+    </div>
+  </div>
+
+  <!-- Reservations Grid -->
+  <div *ngIf="!loading && !error" class="reservations-grid">
+    <div *ngFor="let reservation of filteredReservations" class="reservation-card">
+      <div class="card-header">
+        <h3>{{ reservation.titre }}</h3>
+        <span class="statut-badge" [class]="getStatutClass(reservation.statut)">
+          {{ getStatutLabel(reservation.statut) }}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <div class="info-row">
+          <i class="fa-solid fa-building"></i>
+          <span>{{ reservation.salleNom || 'Salle non spécifiée' }}</span>
+        </div>
+        <div class="info-row">
+          <i class="fa-solid fa-calendar"></i>
+          <span>{{ formatDate(reservation.dateDebut) }}</span>
+        </div>
+        <div class="info-row">
+          <i class="fa-solid fa-users"></i>
+          <span>{{ reservation.nombreParticipants || 0 }} participants</span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn-details" (click)="viewReservationDetail(reservation.id)">
+          <i class="fa-solid fa-eye"></i> Détails
+        </button>
+        <button
+          *ngIf="reservation.statut === 'en_attente' || reservation.statut === 'confirmee'"
+          class="btn-annuler"
+          (click)="annulerReservation(reservation.id)"
+        >
+          <i class="fa-solid fa-ban"></i> Annuler
+        </button>
+      </div>
+    </div>
+
+    <!-- No results -->
+    <div *ngIf="filteredReservations.length === 0" class="no-results">
+      <i class="fa-solid fa-calendar-times"></i>
+      <h3>Aucune réservation</h3>
+      <p>Aucune réservation trouvée</p>
+    </div>
+  </div>
+</div>

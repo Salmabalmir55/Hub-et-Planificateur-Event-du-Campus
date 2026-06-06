@@ -1,0 +1,62 @@
+<!-- src/app/features/categories/categorie-card/categorie-card.component.html -->
+
+<div class="category-card">
+  <!-- Bandeau couleur -->
+  <div class="card-header" [style.backgroundColor]="categorie.couleur || 'var(--primary)'"></div>
+
+  <div class="card-content">
+    <!-- En-tête avec icône et statut -->
+    <div class="card-header-info">
+      <div class="category-icon">{{ categorie.icone || '📁' }}</div>
+      <span class="status-badge" [class.status-confirmed]="categorie.active" [class.status-cancelled]="!categorie.active">
+        {{ categorie.active ? 'Actif' : 'Inactif' }}
+      </span>
+    </div>
+
+    <!-- Nom -->
+    <h3 class="category-name">{{ getDisplayName() }}</h3>
+
+    <!-- Type -->
+    <div *ngIf="categorie.type" class="category-type">
+      🏷️ {{ categorie.type }}
+    </div>
+
+    <!-- Description -->
+    <p class="category-description">{{ getShortDescription() }}</p>
+
+    <!-- Statistiques -->
+    <div class="category-stats">
+      <div class="stat-item">
+        <span class="stat-label">📊 Événements</span>
+        <span class="stat-value">{{ categorie.nombreEvenements || 0 }}</span>
+      </div>
+      <div class="progress-bar" *ngIf="categorie.nombreEvenements">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="card-actions">
+      <button class="btn-card btn-edit" (click)="onEdit()" title="Modifier">
+        ✏️ Modifier
+      </button>
+
+      <button class="btn-card btn-toggle" (click)="onToggleActive()"
+              [title]="categorie.active ? 'Désactiver' : 'Activer'">
+        {{ categorie.active ? '🔒 Désactiver' : '🔓 Activer' }}
+      </button>
+
+      <!-- APRÈS (corrigé) -->
+      <button *ngIf="categorie.active && !categorie.nom.startsWith('[ARCHIVE]')"
+              class="btn-card btn-archive" (click)="onArchive()" title="Archiver">
+        📦 Archiver
+      </button>
+
+      <button class="btn-card btn-delete" (click)="onDelete()"
+              [disabled]="!isDeletable()"
+              [title]="!isDeletable() ? 'Ne peut pas être supprimée car elle contient des événements' : 'Supprimer'">
+        🗑️ Supprimer
+      </button>
+    </div>
+  </div>
+</div>

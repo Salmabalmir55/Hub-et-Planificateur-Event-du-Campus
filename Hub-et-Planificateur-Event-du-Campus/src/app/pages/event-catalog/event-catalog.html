@@ -1,0 +1,84 @@
+<div class="catalog-container">
+
+  <div class="catalog-header">
+    <h1 class="page-title">Découvrir les Événements</h1>
+
+    <div class="controls-wrapper">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="text"
+          placeholder="Rechercher un événement..."
+          [(ngModel)]="searchTerm"
+          (input)="filterEvents()">
+      </div>
+
+      <div class="category-filters">
+        <button
+          *ngFor="let cat of categoryNames"
+          class="filter-btn"
+          [class.active]="selectedCategory === cat"
+          (click)="setCategory(cat)">
+          {{ cat }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- État de chargement -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des événements...</p>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <p>{{ errorMessage }}</p>
+    <button class="retry-btn" (click)="loadEvents()">Réessayer</button>
+  </div>
+
+  <!-- Grille des événements -->
+  <div class="events-grid" *ngIf="!isLoading && !errorMessage">
+    <div class="event-card" *ngFor="let event of filteredEvents">
+
+      <div class="card-image">
+        <div class="placeholder-img">
+          <i class="fa-regular fa-calendar-days"></i>
+        </div>
+        <span class="category-badge">{{ event.category }}</span>
+      </div>
+
+      <div class="card-content">
+        <h3 class="event-title">{{ event.title }}</h3>
+        <div class="event-lieu">
+          <i class="fa-solid fa-location-dot"></i> {{ event.lieu }}
+        </div>
+        <div class="event-info">
+                    <span class="event-date">
+                        <i class="fa-regular fa-clock"></i> {{ event.date }}
+                    </span>
+          <span class="event-price" [class.complet]="event.price === 'Complet'" [class.urgent]="event.price.includes('Plus que')">
+                        {{ event.price }}
+                    </span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="details-btn" [routerLink]="['/event', event.id]">
+          Voir Détails
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Aucun résultat -->
+    <div class="no-results" *ngIf="filteredEvents.length === 0 && !isLoading">
+      <i class="fa-solid fa-box-open"></i>
+      <p>Aucun événement trouvé pour votre recherche.</p>
+      <button class="reset-btn" (click)="searchTerm = ''; filterEvents()">
+        Réinitialiser la recherche
+      </button>
+    </div>
+  </div>
+</div>

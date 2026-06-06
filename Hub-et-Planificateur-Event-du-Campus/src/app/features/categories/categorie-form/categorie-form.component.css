@@ -1,0 +1,190 @@
+/* ========================================
+   TOGGLE SWITCH MODERN
+   ======================================== */
+
+/* Container du toggle */
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle-wrapper label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--dark);
+  cursor: pointer;
+}
+
+/* Switch container */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+/* Cache la checkbox originale */
+.toggle-checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Slider */
+.toggle-label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  border-radius: 34px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Cercle intérieur */
+.toggle-label:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* État coché */
+.toggle-checkbox:checked + .toggle-label {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.toggle-checkbox:checked + .toggle-label:before {
+  transform: translateX(24px);
+  background-color: white;
+}
+
+/* État focus (accessibilité) */
+.toggle-checkbox:focus + .toggle-label {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+/* État désactivé */
+.toggle-checkbox:disabled + .toggle-label {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Effet hover */
+.toggle-switch:hover .toggle-label {
+  background-color: #94a3b8;
+}
+
+.toggle-switch:hover .toggle-checkbox:checked + .toggle-label {
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+}
+
+/* Animation de pulsation au clic */
+.toggle-checkbox:active + .toggle-label:before {
+  width: 26px;
+}
+
+/* Version compacte */
+.toggle-switch-sm {
+  width: 42px;
+  height: 22px;
+}
+
+.toggle-switch-sm .toggle-label:before {
+  height: 16px;
+  width: 16px;
+}
+
+.toggle-switch-sm .toggle-checkbox:checked + .toggle-label:before {
+  transform: translateX(20px);
+}
+
+/* Version large */
+.toggle-switch-lg {
+  width: 64px;
+  height: 32px;
+}
+
+.toggle-switch-lg .toggle-label:before {
+  height: 26px;
+  width: 26px;
+}
+
+.toggle-switch-lg .toggle-checkbox:checked + .toggle-label:before {
+  transform: translateX(30px);
+}
+
+/* Icônes à l'intérieur du toggle */
+.toggle-label .toggle-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.toggle-label .toggle-icon-off {
+  left: 8px;
+  opacity: 1;
+  color: #64748b;
+}
+
+.toggle-label .toggle-icon-on {
+  right: 8px;
+  opacity: 0;
+  color: white;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-icon-off {
+  opacity: 0;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-icon-on {
+  opacity: 1;
+}
+
+/* Version avec labels (ON/OFF) */
+.toggle-with-labels {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-with-labels span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gray);
+  transition: color 0.3s ease;
+}
+
+.toggle-with-labels span.active {
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+/* Mode sombre */
+.dark-mode .toggle-label {
+  background-color: #475569;
+}
+
+.dark-mode .toggle-label:before {
+  background-color: #e2e8f0;
+}
+
+.dark-mode .toggle-checkbox:checked + .toggle-label {
+  background: linear-gradient(135deg, #818cf8, #6366f1);
+}
